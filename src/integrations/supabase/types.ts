@@ -218,6 +218,169 @@ export type Database = {
         }
         Relationships: []
       }
+      artist_photos: {
+        Row: {
+          artist_id: string
+          caption: string | null
+          created_at: string
+          display_order: number | null
+          id: string
+          image_url: string
+          is_featured: boolean | null
+          updated_at: string
+        }
+        Insert: {
+          artist_id: string
+          caption?: string | null
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          image_url: string
+          is_featured?: boolean | null
+          updated_at?: string
+        }
+        Update: {
+          artist_id?: string
+          caption?: string | null
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          image_url?: string
+          is_featured?: boolean | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "artist_photos_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artist_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      artist_profiles: {
+        Row: {
+          apple_music_url: string | null
+          avatar_url: string | null
+          bandcamp_url: string | null
+          bio: string | null
+          created_at: string
+          display_order: number | null
+          email: string | null
+          facebook_url: string | null
+          id: string
+          instagram_url: string | null
+          is_featured: boolean | null
+          is_public: boolean | null
+          name: string
+          soundcloud_url: string | null
+          spotify_url: string | null
+          tiktok_url: string | null
+          twitter_url: string | null
+          updated_at: string
+          user_id: string | null
+          website_url: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          apple_music_url?: string | null
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_order?: number | null
+          email?: string | null
+          facebook_url?: string | null
+          id?: string
+          instagram_url?: string | null
+          is_featured?: boolean | null
+          is_public?: boolean | null
+          name: string
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          tiktok_url?: string | null
+          twitter_url?: string | null
+          updated_at?: string
+          user_id?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          apple_music_url?: string | null
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_order?: number | null
+          email?: string | null
+          facebook_url?: string | null
+          id?: string
+          instagram_url?: string | null
+          is_featured?: boolean | null
+          is_public?: boolean | null
+          name?: string
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          tiktok_url?: string | null
+          twitter_url?: string | null
+          updated_at?: string
+          user_id?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: []
+      }
+      artist_videos: {
+        Row: {
+          artist_id: string
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          is_featured: boolean | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          youtube_id: string
+          youtube_url: string
+        }
+        Insert: {
+          artist_id: string
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          is_featured?: boolean | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          youtube_id: string
+          youtube_url: string
+        }
+        Update: {
+          artist_id?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          is_featured?: boolean | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          youtube_id?: string
+          youtube_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "artist_videos_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artist_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bitcoin_crypto_data: {
         Row: {
           cmc_id: number
