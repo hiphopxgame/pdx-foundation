@@ -1,5 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import ArtistCard from './ArtistCard';
+
+interface SocialLinks {
+  website_url?: string;
+  instagram_url?: string;
+  youtube_url?: string;
+  spotify_url?: string;
+  bandcamp_url?: string;
+  apple_music_url?: string;
+  soundcloud_url?: string;
+  tiktok_url?: string;
+  facebook_url?: string;
+  twitter_url?: string;
+}
+
+interface ArtistProfile {
+  id: string;
+  name: string;
+  bio: string;
+  email: string;
+  avatar_url: string;
+  is_featured: boolean;
+  social_links: SocialLinks;
+}
 
 // Real PDX Foundation Artists
 const mockArtists = [
@@ -305,6 +329,71 @@ const mockArtists = [
 ];
 
 export default function ArtistGrid() {
+  const [artists, setArtists] = useState<ArtistProfile[]>(mockArtists);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadArtists();
+  }, []);
+
+  const loadArtists = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('artist_profiles')
+        .select('*')
+        .eq('is_public', true)
+        .order('display_order', { ascending: true });
+
+      if (error) {
+        console.error('Error loading artists:', error);
+        // Fallback to mock data
+        setArtists(mockArtists);
+      } else if (data && data.length > 0) {
+        // Transform database data to match expected format
+        const transformedArtists: ArtistProfile[] = data.map(artist => ({
+          id: artist.id,
+          name: artist.name,
+          bio: artist.bio || '',
+          email: artist.email || '',
+          avatar_url: artist.avatar_url || '',
+          is_featured: artist.is_featured,
+          social_links: {
+            website_url: artist.website_url || undefined,
+            instagram_url: artist.instagram_url || undefined,
+            youtube_url: artist.youtube_url || undefined,
+            spotify_url: artist.spotify_url || undefined,
+            bandcamp_url: artist.bandcamp_url || undefined,
+            apple_music_url: artist.apple_music_url || undefined,
+            soundcloud_url: artist.soundcloud_url || undefined,
+            tiktok_url: artist.tiktok_url || undefined,
+            facebook_url: artist.facebook_url || undefined,
+            twitter_url: artist.twitter_url || undefined,
+          }
+        }));
+        setArtists(transformedArtists);
+      } else {
+        // No data in database, use mock data
+        setArtists(mockArtists);
+      }
+    } catch (error) {
+      console.error('Error loading artists:', error);
+      setArtists(mockArtists);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading artists...</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 px-4">
       <div className="max-w-7xl mx-auto">
@@ -326,7 +415,7 @@ export default function ArtistGrid() {
             Featured Artists
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {mockArtists
+            {artists
               .filter(artist => artist.is_featured)
               .map(artist => (
                 <ArtistCard key={artist.id} artist={artist} />
@@ -341,7 +430,7 @@ export default function ArtistGrid() {
             All Members
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockArtists.map(artist => (
+            {artists.map(artist => (
               <ArtistCard key={artist.id} artist={artist} />
             ))}
           </div>
