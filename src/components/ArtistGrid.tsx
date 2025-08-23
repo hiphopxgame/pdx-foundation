@@ -1,68 +1,306 @@
 import React from 'react';
 import ArtistCard from './ArtistCard';
 
-// Mock data for demonstration
+// Real PDX Foundation Artists
 const mockArtists = [
   {
     id: '1',
-    name: 'Luna Rivers',
-    bio: 'Electronic music producer blending ambient soundscapes with urban beats. Portland-based artist exploring the intersection of nature and technology through sound.',
-    email: 'luna@pdxfoundation.com',
+    name: 'Jessica Is Everywhere',
+    bio: 'Jessica.Iseverywhere is a visual storyteller that captures the intimate electricity of live performance, moving with the artist and the music they make. I try to translate stage presence into emotion, rhythm, and raw human connection. Highlighting the heart of the PNW\'s underground scene and amplifying voices often unheard.',
+    email: 'Pnwfieldtrips@gmail.com',
     avatar_url: '',
     is_featured: true,
     social_links: {
-      website_url: 'https://lunarivers.com',
-      instagram_url: 'https://instagram.com/lunariversmusic',
-      youtube_url: 'https://youtube.com/lunariversofficialx',
-      spotify_url: 'https://open.spotify.com/artist/lunarivers',
-      soundcloud_url: 'https://soundcloud.com/lunarivers',
+      instagram_url: 'https://instagram.com/jessica.iseverywhere',
+      tiktok_url: 'https://www.tiktok.com/@jessica.iseverywhere?_t=ZP-8yQUGiyfxkM&_r=1',
+      facebook_url: 'https://www.facebook.com/jessica.dimasponce',
     }
   },
   {
     id: '2',
-    name: 'The Urban Collective',
-    bio: 'Hip-hop collective representing the diverse voices of Portland. Creating socially conscious music that speaks to the experiences of our community.',
-    email: 'collective@pdxfoundation.com',
+    name: 'Mental Stamina',
+    bio: '',
+    email: 'Tyronenorris@gmail.com',
     avatar_url: '',
     is_featured: true,
     social_links: {
-      instagram_url: 'https://instagram.com/urbancollectivepdx',
-      youtube_url: 'https://youtube.com/urbancollectivepdx',
-      spotify_url: 'https://open.spotify.com/artist/urbancollective',
-      bandcamp_url: 'https://urbancollective.bandcamp.com',
-      twitter_url: 'https://twitter.com/urbancollectivepdx',
+      instagram_url: 'https://instagram.com/1vsm',
     }
   },
   {
     id: '3',
-    name: 'Echo Station',
-    bio: 'Experimental rock band pushing the boundaries of sound. Combining traditional instruments with electronic elements to create immersive audio experiences.',
-    email: 'echo@pdxfoundation.com',
+    name: 'Zodi Zac',
+    bio: 'After landing on earth, Zodi first touched the forbidden vinyl at the early age of 2 & has been addicted ever since. An eternal student/teacher, ready to listen, learn, & scratch. If you are seeing Z perform, the stars have aligned.',
+    email: 'zodizac@protonmail.com',
     avatar_url: '',
-    is_featured: false,
+    is_featured: true,
     social_links: {
-      website_url: 'https://echostation.band',
-      instagram_url: 'https://instagram.com/echostationband',
-      youtube_url: 'https://youtube.com/echostationofficial',
-      spotify_url: 'https://open.spotify.com/artist/echostation',
-      apple_music_url: 'https://music.apple.com/artist/echostation',
-      facebook_url: 'https://facebook.com/echostationband',
+      instagram_url: 'https://instagram.com/503zodi',
     }
   },
   {
     id: '4',
-    name: 'Neon Dreams',
-    bio: 'Synthwave artist creating nostalgic yet futuristic soundscapes. Drawing inspiration from 80s aesthetics and modern production techniques.',
-    email: 'neon@pdxfoundation.com',
+    name: 'Kaufman',
+    bio: 'Kaufman is passed at Flappers in Burbank. He has worked the Icehouse in Pasadena & Alameda Comedy Club and appeared at Broadway Comedy Club in Manhattan.',
+    email: 'barakanoel@gmail.com',
     avatar_url: '',
     is_featured: false,
     social_links: {
-      instagram_url: 'https://instagram.com/neondreamsmusic',
-      youtube_url: 'https://youtube.com/neondreamsofficial',
-      spotify_url: 'https://open.spotify.com/artist/neondreams',
-      soundcloud_url: 'https://soundcloud.com/neondreams',
-      tiktok_url: 'https://tiktok.com/@neondreamsmusic',
+      instagram_url: 'https://instagram.com/barakanoel',
+      youtube_url: 'https://www.youtube.com/barakanoel',
+      bandcamp_url: 'https://citizensofsleep.bandcamp.com',
     }
+  },
+  {
+    id: '5',
+    name: 'Bex & the Bees',
+    bio: '',
+    email: '',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/bexandthebees',
+    }
+  },
+  {
+    id: '6',
+    name: 'Shane Farnell',
+    bio: 'Folk-punk singer-songwriter based out of Portland, Oregon.',
+    email: 'Shanemichaelfarnell@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/shane_farnell_music',
+      youtube_url: 'https://www.youtube.com/channel/UCCA34R-Bb4VRqSsZqtNyUVg',
+      spotify_url: 'https://open.spotify.com/artist/4NKPvpO9pN7S4Fj0lUKfjI',
+      facebook_url: 'https://www.facebook.com/profile.php?id=100088767189122',
+    }
+  },
+  {
+    id: '7',
+    name: 'Scott Allen',
+    bio: '',
+    email: 'scottallencello@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/cellographic',
+    }
+  },
+  {
+    id: '8',
+    name: 'Matt Varga',
+    bio: 'Human/Alien Scientific/Spiritual Violinist/Guitarist Enjoying the walk home (RIP Ram Dass), let\'s walk together! Looking to be the change',
+    email: 'matt.varga@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/xirdnehimij',
+    }
+  },
+  {
+    id: '9',
+    name: 'Colton Herman',
+    bio: 'Producer turned Vegan Activist touring the United States, living from his car.',
+    email: 'cltnhrmn@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/cltnhrmn',
+    }
+  },
+  {
+    id: '10',
+    name: 'Billions Under Millions',
+    bio: '',
+    email: 'polomolly23@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/4m_billions.under.millions',
+    }
+  },
+  {
+    id: '11',
+    name: 'Diction Uno',
+    bio: '',
+    email: 'dictionuno@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/dictionuno',
+      youtube_url: 'https://www.youtube.com/user/DictionOne',
+      spotify_url: 'https://open.spotify.com/artist/1Ia2o89eFM3tzMS547f2oQ?si=wJfFKbFjQw2bt7G-WGEgUw&dl_branch=1',
+      bandcamp_url: 'https://dictionuno.bandcamp.com/',
+      apple_music_url: 'https://music.apple.com/us/artist/diction-uno/1459730992',
+      tiktok_url: 'https://www.tiktok.com/@dictionuno',
+      facebook_url: 'https://www.facebook.com/DictionUno503',
+    }
+  },
+  {
+    id: '12',
+    name: 'G\'Odd',
+    bio: 'G\'Odd is an experimental rapper, producer and multi media artist making extensive projects with album, movie, visual art and performance elements. These undertaking tend to focus on a crossroads of depravity and enlightenment.',
+    email: '',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/goddmind',
+      youtube_url: 'https://www.youtube.com/@electroshockandawe9152',
+    }
+  },
+  {
+    id: '13',
+    name: 'Lemon Vice',
+    bio: 'Live Sound Engineer, Artist, Song Writer, Musician, Producer, College Student 🍋',
+    email: 'Lemonvic3@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/lemon.vice',
+      youtube_url: 'https://www.youtube.com/channel/UC7i5JMc06qYXMfg1fN6eg7g',
+      spotify_url: 'https://open.spotify.com/artist/5emGEX1UbVfNIhAIaJ5yYF?si=NuHYDb_OSGKP0TwRTb2cqQ&dl_branch=1&nd=1&dlsi=d38f6734027e47ed',
+      apple_music_url: 'https://music.apple.com/us/artist/lemon-vice/1572114282',
+      soundcloud_url: 'https://soundcloud.com/jason-lemon-514468621',
+      tiktok_url: 'https://www.tiktok.com/@lemon.vice',
+    }
+  },
+  {
+    id: '14',
+    name: 'Your Homie Kyle',
+    bio: '',
+    email: 'Yourhomiekyle@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/yourhomiekyle',
+      soundcloud_url: 'https://soundcloud.com/yourhomie-kyle',
+    }
+  },
+  {
+    id: '15',
+    name: 'Obbium',
+    bio: 'OBBI is an experimental musician and producer behind the Obbium brand, blending raw emotion with genre-bending soundscapes. His music explores transformation, connection, and spiritual growth through layered beats and mindful frequencies. Inspired by holistic living and ancient wisdom, OBBI crafts songs that nourish both heart and mind. He invites listeners into a sonic journey of self-discovery and collective experience',
+    email: 'obbiumbrand@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/obbium',
+      soundcloud_url: 'https://soundcloud.com/user-980412170',
+    }
+  },
+  {
+    id: '16',
+    name: 'The Oregonization',
+    bio: 'The Oregonization is J Reid!! We have features from numerous artists which help make up The O. To see more, please visit theoregonization.com',
+    email: '503oregonization@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      website_url: 'https://theoregonization.com',
+      instagram_url: 'https://instagram.com/the_o503',
+      youtube_url: 'https://www.youtube.com/@theoregonization7214',
+    }
+  },
+  {
+    id: '17',
+    name: 'Magi Love',
+    bio: '✨ Alchemist of the heart. Spread LOVE 🌀 Transmuting pain into power 📖 Author: The Discipline of Love 💛 A path to spiritual growth',
+    email: 'Iamlove7272@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/magilove',
+    }
+  },
+  {
+    id: '18',
+    name: 'Gift',
+    bio: '',
+    email: 'Giftsharp66@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/gofuckyourself2438',
+    }
+  },
+  {
+    id: '19',
+    name: 'Dezifel',
+    bio: '',
+    email: 'desidesignsstuff2447@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/lil_casanova_',
+    }
+  },
+  {
+    id: '20',
+    name: 'Alexx Skyy',
+    bio: '',
+    email: 'alexgrabofsky@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/_alexx_skyy',
+    }
+  },
+  {
+    id: '21',
+    name: 'Escape The Smoke',
+    bio: '',
+    email: 'escapethesmok@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/escapethesmok',
+      spotify_url: 'https://open.spotify.com/artist/4afhMrJ6qlDXYFM0eS4yPt',
+    }
+  },
+  {
+    id: '22',
+    name: 'Michael P Toombs',
+    bio: '',
+    email: 'mptoombs4@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/michaelptoombs',
+      spotify_url: 'https://open.spotify.com/artist/5PSJbKIyC6iD1QvE6NdfG2?si=ft6cDaC-RCaFJiOiD1AwjA&nd=1&dlsi=591a259e1807423e',
+    }
+  },
+  {
+    id: '23',
+    name: 'Tata',
+    bio: 'Your favorite rapper\'s favorite homie that raps Addicted to rhythm and open mics Local artist from tha 503 building a meta verse wit a pen and verse',
+    email: 'Tata.503.htc@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/corneliusfinest503',
+      youtube_url: 'https://www.youtube.com/@mr.brownvanilla',
+    }
+  },
+  {
+    id: '24',
+    name: 'Bllack Cat',
+    bio: '',
+    email: '',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {
+      instagram_url: 'https://instagram.com/bllackcat.m4a',
+    }
+  },
+  {
+    id: '25',
+    name: 'Banshekid',
+    bio: '',
+    email: 'bansheekid23@gmail.com',
+    avatar_url: '',
+    is_featured: false,
+    social_links: {}
   }
 ];
 
