@@ -170,16 +170,27 @@ const Admin = () => {
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = type === 'avatar' ? `avatars/${fileName}` : `artist-photos/${fileName}`;
+
+      // Choose correct bucket and organized file path
+      const bucket = type === 'avatar' ? 'avatars' : 'gallery-images';
+      if (type === 'photo' && !selectedArtist) {
+        toast({ title: 'Select an artist first', description: 'Please choose an artist to attach the photo to.', variant: 'destructive' });
+        setUploadingFile(false);
+        return;
+      }
+      const filePath =
+        type === 'avatar'
+          ? `artist-avatars/${fileName}`
+          : `artist-photos/${selectedArtist!.id}/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, file);
+        .from(bucket)
+        .upload(filePath, file, { cacheControl: '3600', upsert: false });
 
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
+        .from(bucket)
         .getPublicUrl(filePath);
 
       if (type === 'avatar') {
@@ -325,6 +336,7 @@ const Admin = () => {
                 <DialogTitle>
                   {selectedArtist ? 'Edit Artist' : 'Add New Artist'}
                 </DialogTitle>
+                <p id="artist-dialog-desc" className="sr-only">Fill out artist basic info and social links.</p>
               </DialogHeader>
               
               <form onSubmit={handleSubmit} className="space-y-4">
