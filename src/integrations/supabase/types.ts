@@ -1295,84 +1295,6 @@ export type Database = {
         }
         Relationships: []
       }
-      "hiphop-orders": {
-        Row: {
-          amount: number
-          created_at: string
-          currency: string | null
-          id: string
-          metadata: Json | null
-          product_type: string
-          quantity: number | null
-          status: string | null
-          stripe_session_id: string | null
-          updated_at: string
-          user_id: string | null
-        }
-        Insert: {
-          amount: number
-          created_at?: string
-          currency?: string | null
-          id?: string
-          metadata?: Json | null
-          product_type: string
-          quantity?: number | null
-          status?: string | null
-          stripe_session_id?: string | null
-          updated_at?: string
-          user_id?: string | null
-        }
-        Update: {
-          amount?: number
-          created_at?: string
-          currency?: string | null
-          id?: string
-          metadata?: Json | null
-          product_type?: string
-          quantity?: number | null
-          status?: string | null
-          stripe_session_id?: string | null
-          updated_at?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      "hiphop-profiles": {
-        Row: {
-          avatar_url: string | null
-          created_at: string
-          display_name: string | null
-          hip_hop_cards_owned: number | null
-          hip_hop_cash_balance: number | null
-          hip_hop_land_owned: number | null
-          id: string
-          updated_at: string
-          username: string | null
-        }
-        Insert: {
-          avatar_url?: string | null
-          created_at?: string
-          display_name?: string | null
-          hip_hop_cards_owned?: number | null
-          hip_hop_cash_balance?: number | null
-          hip_hop_land_owned?: number | null
-          id: string
-          updated_at?: string
-          username?: string | null
-        }
-        Update: {
-          avatar_url?: string | null
-          created_at?: string
-          display_name?: string | null
-          hip_hop_cards_owned?: number | null
-          hip_hop_cash_balance?: number | null
-          hip_hop_land_owned?: number | null
-          id?: string
-          updated_at?: string
-          username?: string | null
-        }
-        Relationships: []
-      }
       "hiphop-subscribers": {
         Row: {
           created_at: string
@@ -1408,45 +1330,6 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
-      }
-      hiphopworld_card_collections: {
-        Row: {
-          card_id: string
-          collected_at: string
-          collector_user_id: string
-          id: string
-          individual_balance: number
-        }
-        Insert: {
-          card_id: string
-          collected_at?: string
-          collector_user_id: string
-          id?: string
-          individual_balance?: number
-        }
-        Update: {
-          card_id?: string
-          collected_at?: string
-          collector_user_id?: string
-          id?: string
-          individual_balance?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "hiphopworld_card_collections_card_id_fkey"
-            columns: ["card_id"]
-            isOneToOne: false
-            referencedRelation: "hiphopworld_cards"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "hiphopworld_card_collections_collector_user_id_fkey"
-            columns: ["collector_user_id"]
-            isOneToOne: false
-            referencedRelation: "hiphopworld_profiles"
-            referencedColumns: ["user_id"]
-          },
-        ]
       }
       hiphopworld_cards: {
         Row: {
@@ -1538,6 +1421,48 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      hiphopworld_orders: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string | null
+          id: string
+          metadata: Json | null
+          product_type: string
+          quantity: number | null
+          status: string | null
+          stripe_session_id: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string | null
+          id?: string
+          metadata?: Json | null
+          product_type: string
+          quantity?: number | null
+          status?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string | null
+          id?: string
+          metadata?: Json | null
+          product_type?: string
+          quantity?: number | null
+          status?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
       }
       hiphopworld_profiles: {
         Row: {
