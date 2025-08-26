@@ -165,33 +165,40 @@ const Admin = () => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    console.log('Starting upload:', { type, fileName: file.name, fileSize: file.size });
     setUploadingFile(true);
 
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
+      
+      // Use avatars bucket for both types for now (since it's working)
+      const bucket = 'avatars';
+      const filePath = type === 'avatar' 
+        ? `artist-avatars/${fileName}` 
+        : `artist-photos/${fileName}`;
 
-      // Choose correct bucket and organized file path
-      const bucket = type === 'avatar' ? 'avatars' : 'gallery-images';
-      if (type === 'photo' && !selectedArtist) {
-        toast({ title: 'Select an artist first', description: 'Please choose an artist to attach the photo to.', variant: 'destructive' });
-        setUploadingFile(false);
-        return;
-      }
-      const filePath =
-        type === 'avatar'
-          ? `artist-avatars/${fileName}`
-          : `artist-photos/${selectedArtist!.id}/${fileName}`;
+      console.log('Upload details:', { bucket, filePath, fileType: file.type });
 
-      const { error: uploadError } = await supabase.storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from(bucket)
-        .upload(filePath, file, { cacheControl: '3600', upsert: false });
+        .upload(filePath, file, { 
+          cacheControl: '3600', 
+          upsert: false 
+        });
 
-      if (uploadError) throw uploadError;
+      console.log('Upload result:', { uploadData, uploadError });
+
+      if (uploadError) {
+        console.error('Upload error details:', uploadError);
+        throw uploadError;
+      }
 
       const { data: { publicUrl } } = supabase.storage
         .from(bucket)
         .getPublicUrl(filePath);
+      
+      console.log('Generated public URL:', publicUrl);
 
       if (type === 'avatar') {
         setFormData(prev => ({ ...prev, avatar_url: publicUrl }));
