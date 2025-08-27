@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Music, Users, MapPin, ArrowDown } from 'lucide-react';
-import heroBanner from '@/assets/pdx-hero-banner.jpg';
+import heroBanner from '@/assets/pdx-nature-hero.jpg';
 
 export default function Hero() {
   const scrollToArtists = () => {
@@ -47,7 +47,7 @@ export default function Hero() {
         <div className="flex flex-wrap justify-center gap-6 mb-10 text-sm">
           <div className="flex items-center gap-2 bg-background/10 backdrop-blur-sm rounded-full px-4 py-2 border border-border/20">
             <Users className="w-4 h-4 text-primary" />
-            <span className="text-foreground font-semibold">4+ Artists</span>
+            <span className="text-foreground font-semibold">25+ Artists</span>
           </div>
           <div className="flex items-center gap-2 bg-background/10 backdrop-blur-sm rounded-full px-4 py-2 border border-border/20">
             <MapPin className="w-4 h-4 text-accent" />
