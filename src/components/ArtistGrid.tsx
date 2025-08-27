@@ -369,28 +369,44 @@ export default function ArtistGrid() {
         // Fallback to mock data
         setArtists(mockArtists);
       } else if (data && data.length > 0) {
-        // Transform database data to match expected format
-        const transformedArtists: ArtistProfile[] = data.map(artist => ({
-          id: artist.id,
-          name: artist.name,
-          bio: artist.bio || '',
-          email: '', // Email is now protected and not exposed to public queries
-          avatar_url: artist.avatar_url || '',
-          is_featured: artist.is_featured,
-          social_links: {
-            website_url: artist.website_url || undefined,
-            instagram_url: artist.instagram_url || undefined,
-            youtube_url: artist.youtube_url || undefined,
-            spotify_url: artist.spotify_url || undefined,
-            bandcamp_url: artist.bandcamp_url || undefined,
-            apple_music_url: artist.apple_music_url || undefined,
-            soundcloud_url: artist.soundcloud_url || undefined,
-            tiktok_url: artist.tiktok_url || undefined,
-            facebook_url: artist.facebook_url || undefined,
-            twitter_url: artist.twitter_url || undefined,
-          }
-        }));
-        setArtists(transformedArtists);
+        // Get uploaded photos for each artist
+        const artistsWithPhotos = await Promise.all(
+          data.map(async (artist) => {
+            // Get the first uploaded photo for this artist
+            const { data: photos } = await supabase
+              .from('artist_photos')
+              .select('image_url')
+              .eq('artist_id', artist.id)
+              .order('display_order', { ascending: true })
+              .limit(1);
+
+            // Use uploaded photo as avatar_url if available, otherwise use existing avatar_url
+            const primaryImageUrl = photos?.[0]?.image_url || artist.avatar_url || '';
+
+            return {
+              id: artist.id,
+              name: artist.name,
+              bio: artist.bio || '',
+              email: '', // Email is now protected and not exposed to public queries
+              avatar_url: primaryImageUrl,
+              is_featured: artist.is_featured,
+              social_links: {
+                website_url: artist.website_url || undefined,
+                instagram_url: artist.instagram_url || undefined,
+                youtube_url: artist.youtube_url || undefined,
+                spotify_url: artist.spotify_url || undefined,
+                bandcamp_url: artist.bandcamp_url || undefined,
+                apple_music_url: artist.apple_music_url || undefined,
+                soundcloud_url: artist.soundcloud_url || undefined,
+                tiktok_url: artist.tiktok_url || undefined,
+                facebook_url: artist.facebook_url || undefined,
+                twitter_url: artist.twitter_url || undefined,
+              }
+            };
+          })
+        );
+        
+        setArtists(artistsWithPhotos);
       } else {
         // No data in database, use mock data
         setArtists(mockArtists);

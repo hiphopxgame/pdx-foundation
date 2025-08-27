@@ -18,6 +18,7 @@ interface ArtistProfile {
   bio?: string;
   email?: string;
   avatar_url?: string;
+  primary_image_url?: string;
   is_featured: boolean;
   is_public: boolean;
   display_order: number;
@@ -89,9 +90,30 @@ const Admin = () => {
         console.error('Database error:', error);
         throw error;
       }
+
+      // Get uploaded photos for each artist
+      const artistsWithPhotos = await Promise.all(
+        (data || []).map(async (artist) => {
+          // Get the first uploaded photo for this artist
+          const { data: photos } = await supabase
+            .from('artist_photos')
+            .select('image_url')
+            .eq('artist_id', artist.id)
+            .order('display_order', { ascending: true })
+            .limit(1);
+
+          // Use uploaded photo as primary image if available
+          const primaryImageUrl = photos?.[0]?.image_url || artist.avatar_url || '';
+
+          return {
+            ...artist,
+            primary_image_url: primaryImageUrl
+          };
+        })
+      );
       
-      setArtists(data || []);
-      console.log('Artists loaded successfully:', data?.length || 0);
+      setArtists(artistsWithPhotos);
+      console.log('Artists loaded successfully:', artistsWithPhotos.length);
     } catch (error) {
       console.error('Error loading artists:', error);
       toast({
@@ -556,9 +578,9 @@ const Admin = () => {
           {artists.map((artist) => (
             <Card key={artist.id} className="gradient-card border-border overflow-hidden">
               <div className="relative h-32 bg-gradient-hero">
-                {artist.avatar_url ? (
+                {artist.primary_image_url ? (
                   <img
-                    src={artist.avatar_url}
+                    src={artist.primary_image_url}
                     alt={artist.name}
                     className="w-full h-full object-cover"
                   />
