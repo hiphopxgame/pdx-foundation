@@ -338,9 +338,29 @@ export default function ArtistGrid() {
 
   const loadArtists = async () => {
     try {
+      // Query with explicit column selection to exclude email for security
       const { data, error } = await supabase
         .from('artist_profiles')
-        .select('*')
+        .select(`
+          id,
+          created_at,
+          updated_at,
+          is_featured,
+          display_order,
+          name,
+          bio,
+          avatar_url,
+          website_url,
+          instagram_url,
+          youtube_url,
+          spotify_url,
+          bandcamp_url,
+          apple_music_url,
+          soundcloud_url,
+          tiktok_url,
+          facebook_url,
+          twitter_url
+        `)
         .eq('is_public', true)
         .order('display_order', { ascending: true });
 
@@ -354,7 +374,7 @@ export default function ArtistGrid() {
           id: artist.id,
           name: artist.name,
           bio: artist.bio || '',
-          email: artist.email || '',
+          email: '', // Email is now protected and not exposed to public queries
           avatar_url: artist.avatar_url || '',
           is_featured: artist.is_featured,
           social_links: {
