@@ -77,18 +77,26 @@ const Admin = () => {
 
   const loadArtists = async () => {
     try {
+      console.log('Loading artists...');
       const { data, error } = await supabase
         .from('artist_profiles')
         .select('*')
         .order('display_order', { ascending: true });
 
-      if (error) throw error;
+      console.log('Artists query result:', { data, error });
+      
+      if (error) {
+        console.error('Database error:', error);
+        throw error;
+      }
+      
       setArtists(data || []);
+      console.log('Artists loaded successfully:', data?.length || 0);
     } catch (error) {
       console.error('Error loading artists:', error);
       toast({
         title: "Error",
-        description: "Failed to load artist profiles",
+        description: `Failed to load artist profiles: ${error.message}`,
         variant: "destructive",
       });
     } finally {
