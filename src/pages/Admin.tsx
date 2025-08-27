@@ -8,9 +8,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Edit, Upload, Trash2, Star, Image as ImageIcon } from 'lucide-react';
+import ImageEditor from '@/components/ImageEditor';
 
 interface ArtistProfile {
   id: string;
@@ -50,6 +51,9 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isPhotoDialogOpen, setIsPhotoDialogOpen] = useState(false);
+  const [isImageEditorOpen, setIsImageEditorOpen] = useState(false);
+  const [imageToEdit, setImageToEdit] = useState<string>('');
+  const [pendingImageFile, setPendingImageFile] = useState<File | null>(null);
   const [uploadingFile, setUploadingFile] = useState(false);
   const { toast } = useToast();
 
@@ -196,6 +200,21 @@ const Admin = () => {
     if (!file) return;
 
     console.log('Starting upload:', { type, fileName: file.name, fileSize: file.size });
+
+    // For photos, open the image editor first
+    if (type === 'photo') {
+      const imageUrl = URL.createObjectURL(file);
+      setImageToEdit(imageUrl);
+      setPendingImageFile(file);
+      setIsImageEditorOpen(true);
+      return;
+    }
+
+    // For avatars, upload directly (you can also add editor here if needed)
+    await uploadFile(file, type);
+  };
+
+  const uploadFile = async (file: File, type: 'avatar' | 'photo') => {
     setUploadingFile(true);
 
     try {
@@ -232,6 +251,10 @@ const Admin = () => {
 
       if (type === 'avatar') {
         setFormData(prev => ({ ...prev, avatar_url: publicUrl }));
+        toast({
+          title: "Success",
+          description: "Avatar uploaded successfully",
+        });
       } else if (selectedArtist) {
         // Add photo to artist_photos table
         const { error } = await supabase
@@ -246,6 +269,7 @@ const Admin = () => {
         if (error) throw error;
         
         loadArtistPhotos(selectedArtist.id);
+        loadArtists(); // Refresh artists to update primary images
         toast({
           title: "Success",
           description: "Photo uploaded successfully",
@@ -260,6 +284,33 @@ const Admin = () => {
       });
     } finally {
       setUploadingFile(false);
+    }
+  };
+
+  const handleImageEditorSave = async (croppedImageBlob: Blob) => {
+    if (!pendingImageFile || !selectedArtist) return;
+
+    try {
+      // Convert blob to file
+      const fileExt = pendingImageFile.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const croppedFile = new File([croppedImageBlob], fileName, { 
+        type: croppedImageBlob.type 
+      });
+
+      await uploadFile(croppedFile, 'photo');
+      
+      // Clean up
+      setPendingImageFile(null);
+      setImageToEdit('');
+      
+    } catch (error) {
+      console.error('Error saving cropped image:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save cropped image",
+        variant: "destructive",
+      });
     }
   };
 
@@ -373,7 +424,9 @@ const Admin = () => {
                 <DialogTitle>
                   {selectedArtist ? 'Edit Artist' : 'Add New Artist'}
                 </DialogTitle>
-                <p id="artist-dialog-desc" className="sr-only">Fill out artist basic info and social links.</p>
+                <DialogDescription>
+                  Fill out artist basic info and social links.
+                </DialogDescription>
               </DialogHeader>
               
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -647,6 +700,9 @@ const Admin = () => {
               <DialogTitle>
                 Manage Photos - {selectedArtist?.name}
               </DialogTitle>
+              <DialogDescription>
+                Upload and manage photos for this artist. You can upload multiple images and delete existing ones.
+              </DialogDescription>
             </DialogHeader>
 
             <div className="space-y-4">
@@ -689,6 +745,19 @@ const Admin = () => {
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Image Editor Dialog */}
+        <ImageEditor
+          isOpen={isImageEditorOpen}
+          onClose={() => {
+            setIsImageEditorOpen(false);
+            setImageToEdit('');
+            setPendingImageFile(null);
+          }}
+          imageSrc={imageToEdit}
+          onSave={handleImageEditorSave}
+          aspectRatio={16 / 9} // Adjust based on your preferred aspect ratio
+        />
       </main>
     </div>
   );
