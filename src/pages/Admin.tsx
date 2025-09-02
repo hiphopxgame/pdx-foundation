@@ -156,13 +156,18 @@ const Admin = () => {
     try {
       console.log('Submitting form data:', formData);
       console.log('Selected artist:', selectedArtist);
-      
+
+      // Remove computed/UI-only fields that are not real DB columns
+      const payload: any = { ...formData };
+      delete payload.primary_image_url;
+      delete payload.id;
+
       if (selectedArtist) {
         // Update existing artist
-        console.log('Updating artist with ID:', selectedArtist.id);
+        console.log('Updating artist with ID:', selectedArtist.id, 'payload:', payload);
         const { data, error } = await supabase
           .from('artist_profiles')
-          .update(formData)
+          .update(payload)
           .eq('id', selectedArtist.id)
           .select();
 
@@ -179,10 +184,10 @@ const Admin = () => {
         });
       } else {
         // Create new artist
-        console.log('Creating new artist with data:', formData);
+        console.log('Creating new artist with payload:', payload);
         const { data, error } = await supabase
           .from('artist_profiles')
-          .insert([{ ...formData, name: formData.name! }])
+          .insert([{ ...payload, name: payload.name! }])
           .select();
 
         console.log('Insert result:', { data, error });
@@ -202,10 +207,9 @@ const Admin = () => {
       setSelectedArtist(null);
       resetForm();
       loadArtists();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving artist:', error);
-      const errorMessage = error.message || 'Unknown error occurred';
-      console.error('Full error object:', error);
+      const errorMessage = error?.message || 'Unknown error occurred';
       
       toast({
         title: "Error",
@@ -363,7 +367,8 @@ const Admin = () => {
 
   const editArtist = (artist: ArtistProfile) => {
     setSelectedArtist(artist);
-    setFormData(artist);
+    const { primary_image_url, ...formSafe } = artist as any;
+    setFormData(formSafe);
     setIsDialogOpen(true);
   };
 
