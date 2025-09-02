@@ -154,14 +154,24 @@ const Admin = () => {
     e.preventDefault();
     
     try {
+      console.log('Submitting form data:', formData);
+      console.log('Selected artist:', selectedArtist);
+      
       if (selectedArtist) {
         // Update existing artist
-        const { error } = await supabase
+        console.log('Updating artist with ID:', selectedArtist.id);
+        const { data, error } = await supabase
           .from('artist_profiles')
           .update(formData)
-          .eq('id', selectedArtist.id);
+          .eq('id', selectedArtist.id)
+          .select();
 
-        if (error) throw error;
+        console.log('Update result:', { data, error });
+        
+        if (error) {
+          console.error('Update error details:', error);
+          throw error;
+        }
         
         toast({
           title: "Success",
@@ -169,11 +179,18 @@ const Admin = () => {
         });
       } else {
         // Create new artist
-        const { error } = await supabase
+        console.log('Creating new artist with data:', formData);
+        const { data, error } = await supabase
           .from('artist_profiles')
-          .insert([{ ...formData, name: formData.name! }]);
+          .insert([{ ...formData, name: formData.name! }])
+          .select();
 
-        if (error) throw error;
+        console.log('Insert result:', { data, error });
+        
+        if (error) {
+          console.error('Insert error details:', error);
+          throw error;
+        }
         
         toast({
           title: "Success",
@@ -187,9 +204,12 @@ const Admin = () => {
       loadArtists();
     } catch (error) {
       console.error('Error saving artist:', error);
+      const errorMessage = error.message || 'Unknown error occurred';
+      console.error('Full error object:', error);
+      
       toast({
         title: "Error",
-        description: "Failed to save artist profile",
+        description: `Failed to save artist profile: ${errorMessage}`,
         variant: "destructive",
       });
     }
