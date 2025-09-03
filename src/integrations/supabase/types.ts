@@ -271,6 +271,7 @@ export type Database = {
           facebook_url: string | null
           id: string
           instagram_url: string | null
+          is_email_public: boolean | null
           is_featured: boolean | null
           is_public: boolean | null
           name: string
@@ -294,6 +295,7 @@ export type Database = {
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
+          is_email_public?: boolean | null
           is_featured?: boolean | null
           is_public?: boolean | null
           name: string
@@ -317,6 +319,7 @@ export type Database = {
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
+          is_email_public?: boolean | null
           is_featured?: boolean | null
           is_public?: boolean | null
           name?: string
@@ -543,6 +546,281 @@ export type Database = {
           updated_at?: string
           user_id?: string
           zip_code?: string | null
+        }
+        Relationships: []
+      }
+      cbake_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          inquiry_type: string
+          message: string
+          name: string
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          inquiry_type: string
+          message: string
+          name: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          inquiry_type?: string
+          message?: string
+          name?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cbake_messages_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "cbake_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      cbake_newsletter_subscriptions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cbake_orders: {
+        Row: {
+          created_at: string
+          delivery: string
+          dough_type: string
+          email: string
+          estimated_total: number | null
+          filling: string
+          id: string
+          name: string
+          order_type: string
+          phone: string | null
+          product_id: string | null
+          product_name: string | null
+          quantity: number
+          special_instructions: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          delivery: string
+          dough_type: string
+          email: string
+          estimated_total?: number | null
+          filling: string
+          id?: string
+          name: string
+          order_type: string
+          phone?: string | null
+          product_id?: string | null
+          product_name?: string | null
+          quantity?: number
+          special_instructions?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          delivery?: string
+          dough_type?: string
+          email?: string
+          estimated_total?: number | null
+          filling?: string
+          id?: string
+          name?: string
+          order_type?: string
+          phone?: string | null
+          product_id?: string | null
+          product_name?: string | null
+          quantity?: number
+          special_instructions?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cbake_orders_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "cbake_products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cbake_orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "cbake_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      cbake_products: {
+        Row: {
+          base_price: number | null
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          image_url: string | null
+          ingredients: string | null
+          is_active: boolean
+          name: string
+          origin: string | null
+          product_type: string
+          tags: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          base_price?: number | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          ingredients?: string | null
+          is_active?: boolean
+          name: string
+          origin?: string | null
+          product_type: string
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          base_price?: number | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          ingredients?: string | null
+          is_active?: boolean
+          name?: string
+          origin?: string | null
+          product_type?: string
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      cbake_profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          is_admin: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: string
+          is_admin?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          is_admin?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      cbake_quotes: {
+        Row: {
+          admin_notes: string | null
+          business_name: string | null
+          catering_services: Json | null
+          created_at: string
+          email: string
+          event_date: string | null
+          event_type: string | null
+          guest_count: number | null
+          id: string
+          name: string
+          phone: string | null
+          quoted_amount: number | null
+          special_requirements: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          business_name?: string | null
+          catering_services?: Json | null
+          created_at?: string
+          email: string
+          event_date?: string | null
+          event_type?: string | null
+          guest_count?: number | null
+          id?: string
+          name: string
+          phone?: string | null
+          quoted_amount?: number | null
+          special_requirements?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          business_name?: string | null
+          catering_services?: Json | null
+          created_at?: string
+          email?: string
+          event_date?: string | null
+          event_type?: string | null
+          guest_count?: number | null
+          id?: string
+          name?: string
+          phone?: string | null
+          quoted_amount?: number | null
+          special_requirements?: string | null
+          status?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1933,117 +2211,6 @@ export type Database = {
           },
         ]
       }
-      oregon_tires_appointments: {
-        Row: {
-          actual_duration_minutes: number | null
-          actual_duration_seconds: number | null
-          assigned_employee_id: string | null
-          completed_at: string | null
-          created_at: string
-          customer_address: string | null
-          customer_city: string | null
-          customer_state: string | null
-          customer_zip: string | null
-          email: string
-          first_name: string
-          id: string
-          language: string
-          last_name: string
-          license_plate: string | null
-          message: string | null
-          phone: string | null
-          preferred_date: string
-          preferred_time: string
-          service: string
-          service_location: string | null
-          started_at: string | null
-          status: string
-          tire_size: string | null
-          travel_cost_estimate: number | null
-          travel_distance_miles: number | null
-          updated_at: string
-          vehicle_id: string | null
-          vin: string | null
-        }
-        Insert: {
-          actual_duration_minutes?: number | null
-          actual_duration_seconds?: number | null
-          assigned_employee_id?: string | null
-          completed_at?: string | null
-          created_at?: string
-          customer_address?: string | null
-          customer_city?: string | null
-          customer_state?: string | null
-          customer_zip?: string | null
-          email: string
-          first_name: string
-          id?: string
-          language?: string
-          last_name: string
-          license_plate?: string | null
-          message?: string | null
-          phone?: string | null
-          preferred_date: string
-          preferred_time: string
-          service: string
-          service_location?: string | null
-          started_at?: string | null
-          status?: string
-          tire_size?: string | null
-          travel_cost_estimate?: number | null
-          travel_distance_miles?: number | null
-          updated_at?: string
-          vehicle_id?: string | null
-          vin?: string | null
-        }
-        Update: {
-          actual_duration_minutes?: number | null
-          actual_duration_seconds?: number | null
-          assigned_employee_id?: string | null
-          completed_at?: string | null
-          created_at?: string
-          customer_address?: string | null
-          customer_city?: string | null
-          customer_state?: string | null
-          customer_zip?: string | null
-          email?: string
-          first_name?: string
-          id?: string
-          language?: string
-          last_name?: string
-          license_plate?: string | null
-          message?: string | null
-          phone?: string | null
-          preferred_date?: string
-          preferred_time?: string
-          service?: string
-          service_location?: string | null
-          started_at?: string | null
-          status?: string
-          tire_size?: string | null
-          travel_cost_estimate?: number | null
-          travel_distance_miles?: number | null
-          updated_at?: string
-          vehicle_id?: string | null
-          vin?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "oregon_tires_appointments_assigned_employee_id_fkey"
-            columns: ["assigned_employee_id"]
-            isOneToOne: false
-            referencedRelation: "oretir_employees"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "oregon_tires_appointments_vehicle_id_fkey"
-            columns: ["vehicle_id"]
-            isOneToOne: false
-            referencedRelation: "customer_vehicles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       oregon_tires_contact_messages: {
         Row: {
           created_at: string
@@ -2142,6 +2309,7 @@ export type Database = {
           tire_size: string | null
           travel_cost_estimate: number | null
           travel_distance_miles: number | null
+          updated_at: string
           vehicle_id: string | null
           vin: string | null
         }
@@ -2173,6 +2341,7 @@ export type Database = {
           tire_size?: string | null
           travel_cost_estimate?: number | null
           travel_distance_miles?: number | null
+          updated_at?: string
           vehicle_id?: string | null
           vin?: string | null
         }
@@ -2204,6 +2373,7 @@ export type Database = {
           tire_size?: string | null
           travel_cost_estimate?: number | null
           travel_distance_miles?: number | null
+          updated_at?: string
           vehicle_id?: string | null
           vin?: string | null
         }
@@ -2318,15 +2488,7 @@ export type Database = {
           sent_at?: string
           subject?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "oregon_tires_email_logs_appointment_id_fkey"
-            columns: ["appointment_id"]
-            isOneToOne: false
-            referencedRelation: "oregon_tires_appointments"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       oretir_employee_schedules: {
         Row: {
@@ -3421,6 +3583,10 @@ export type Database = {
         Returns: boolean
       }
       is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      is_cbake_admin: {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
