@@ -178,6 +178,9 @@ const Admin = () => {
           throw error;
         }
         
+        // Optimistically update local state for immediate UI feedback
+        setArtists(prev => prev.map(a => a.id === selectedArtist.id ? { ...a, ...payload } : a));
+        
         toast({
           title: "Success",
           description: "Artist profile updated successfully",
@@ -195,6 +198,15 @@ const Admin = () => {
         if (error) {
           console.error('Insert error details:', error);
           throw error;
+        }
+        
+        // Add to local state so UI reflects the new artist immediately
+        if (data && data[0]) {
+          const newArtist = data[0] as any;
+          setArtists(prev => [
+            ...prev,
+            { ...newArtist, primary_image_url: newArtist.avatar_url || '' }
+          ]);
         }
         
         toast({
