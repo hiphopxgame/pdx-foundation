@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,7 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Edit, Upload, Trash2, Star, Image as ImageIcon } from 'lucide-react';
+import { Plus, Edit, Upload, Trash2, Star, Image as ImageIcon, LogOut } from 'lucide-react';
 import ImageEditor from '@/components/ImageEditor';
 
 interface ArtistProfile {
@@ -45,6 +47,8 @@ interface ArtistPhoto {
 }
 
 const Admin = () => {
+  const { user, loading: authLoading, signOut } = useAuth();
+  const navigate = useNavigate();
   const [artists, setArtists] = useState<ArtistProfile[]>([]);
   const [selectedArtist, setSelectedArtist] = useState<ArtistProfile | null>(null);
   const [artistPhotos, setArtistPhotos] = useState<ArtistPhoto[]>([]);
@@ -56,6 +60,13 @@ const Admin = () => {
   const [pendingImageFile, setPendingImageFile] = useState<File | null>(null);
   const [uploadingFile, setUploadingFile] = useState(false);
   const { toast } = useToast();
+
+  // Redirect to auth if not authenticated
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/auth');
+    }
+  }, [user, authLoading, navigate]);
 
   const [formData, setFormData] = useState<Partial<ArtistProfile>>({
     name: '',
@@ -413,28 +424,48 @@ const Admin = () => {
     setIsPhotoDialogOpen(true);
   };
 
-  if (isLoading) {
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/auth');
+  };
+
+  if (authLoading || isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading artists...</p>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
+  }
+
+  if (!user) {
+    return null; // Will redirect via useEffect
   }
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border py-6 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold text-gradient-primary mb-2">
-            Artist Management
-          </h1>
-          <p className="text-muted-foreground">
-            Manage PDX.Foundation artist profiles and galleries
-          </p>
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gradient-primary mb-2">
+              Artist Management
+            </h1>
+            <p className="text-muted-foreground">
+              Manage PDX.Foundation artist profiles and galleries
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-muted-foreground">
+              {user.email}
+            </span>
+            <Button variant="outline" onClick={handleSignOut}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </div>
         </div>
       </header>
 
