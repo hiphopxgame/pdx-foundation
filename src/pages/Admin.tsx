@@ -206,7 +206,9 @@ const Admin = () => {
       setIsDialogOpen(false);
       setSelectedArtist(null);
       resetForm();
-      loadArtists();
+      
+      // Force reload of artists data to ensure UI updates
+      await loadArtists();
     } catch (error: any) {
       console.error('Error saving artist:', error);
       const errorMessage = error?.message || 'Unknown error occurred';
