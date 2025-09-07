@@ -227,6 +227,9 @@ export type Database = {
           id: string
           image_url: string
           is_featured: boolean | null
+          position_x: number | null
+          position_y: number | null
+          scale: number | null
           updated_at: string
         }
         Insert: {
@@ -237,6 +240,9 @@ export type Database = {
           id?: string
           image_url: string
           is_featured?: boolean | null
+          position_x?: number | null
+          position_y?: number | null
+          scale?: number | null
           updated_at?: string
         }
         Update: {
@@ -247,6 +253,9 @@ export type Database = {
           id?: string
           image_url?: string
           is_featured?: boolean | null
+          position_x?: number | null
+          position_y?: number | null
+          scale?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -271,6 +280,7 @@ export type Database = {
           facebook_url: string | null
           id: string
           instagram_url: string | null
+          is_archived: boolean | null
           is_email_public: boolean | null
           is_featured: boolean | null
           is_public: boolean | null
@@ -295,6 +305,7 @@ export type Database = {
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
+          is_archived?: boolean | null
           is_email_public?: boolean | null
           is_featured?: boolean | null
           is_public?: boolean | null
@@ -319,6 +330,7 @@ export type Database = {
           facebook_url?: string | null
           id?: string
           instagram_url?: string | null
+          is_archived?: boolean | null
           is_email_public?: boolean | null
           is_featured?: boolean | null
           is_public?: boolean | null

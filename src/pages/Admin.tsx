@@ -12,7 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Edit, Upload, Trash2, Star, Image as ImageIcon, LogOut } from 'lucide-react';
+import { Plus, Edit, Upload, Trash2, Star, Image as ImageIcon, LogOut, Archive, Move } from 'lucide-react';
 import ImageEditor from '@/components/ImageEditor';
 
 interface ArtistProfile {
@@ -24,6 +24,7 @@ interface ArtistProfile {
   primary_image_url?: string;
   is_featured: boolean;
   is_public: boolean;
+  is_archived: boolean;
   display_order: number;
   website_url?: string;
   instagram_url?: string;
@@ -44,6 +45,9 @@ interface ArtistPhoto {
   caption?: string;
   display_order: number;
   is_featured: boolean;
+  position_x?: number;
+  position_y?: number;
+  scale?: number;
 }
 
 const Admin = () => {
@@ -74,6 +78,7 @@ const Admin = () => {
     email: '',
     is_featured: false,
     is_public: true,
+    is_archived: false,
     display_order: 0,
     website_url: '',
     instagram_url: '',
@@ -97,6 +102,7 @@ const Admin = () => {
       const { data, error } = await supabase
         .from('artist_profiles')
         .select('*')
+        .eq('is_archived', false)
         .order('display_order', { ascending: true });
 
       console.log('Artists query result:', { data, error });
@@ -404,6 +410,7 @@ const Admin = () => {
       email: '',
       is_featured: false,
       is_public: true,
+      is_archived: false,
       display_order: 0,
       website_url: '',
       instagram_url: '',
@@ -422,6 +429,62 @@ const Admin = () => {
     setSelectedArtist(artist);
     loadArtistPhotos(artist.id);
     setIsPhotoDialogOpen(true);
+  };
+
+  const archiveArtist = async (artistId: string) => {
+    try {
+      const { error } = await supabase
+        .from('artist_profiles')
+        .update({ is_archived: true })
+        .eq('id', artistId);
+
+      if (error) throw error;
+
+      // Remove from local state
+      setArtists(prev => prev.filter(a => a.id !== artistId));
+      
+      toast({
+        title: "Success",
+        description: "Artist archived successfully",
+      });
+    } catch (error) {
+      console.error('Error archiving artist:', error);
+      toast({
+        title: "Error",
+        description: "Failed to archive artist",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const updatePhotoPosition = async (photoId: string, position_x: number, position_y: number, scale: number) => {
+    try {
+      const { error } = await supabase
+        .from('artist_photos')
+        .update({ position_x, position_y, scale })
+        .eq('id', photoId);
+
+      if (error) throw error;
+
+      // Update local state
+      setArtistPhotos(prev => prev.map(photo => 
+        photo.id === photoId 
+          ? { ...photo, position_x, position_y, scale }
+          : photo
+      ));
+      
+      toast({
+        title: "Success",
+        description: "Photo position updated successfully",
+      });
+    } catch (error) {
+      console.error('Error updating photo position:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update photo position",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleSignOut = async () => {
@@ -538,27 +601,8 @@ const Admin = () => {
                       />
                     </div>
 
-                    <div>
-                      <Label htmlFor="avatar">Avatar Image</Label>
-                      <Input
-                        id="avatar"
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => handleFileUpload(e, 'avatar')}
-                        disabled={uploadingFile}
-                      />
-                      {formData.avatar_url && (
-                        <div className="mt-2">
-                          <img
-                            src={formData.avatar_url}
-                            alt="Avatar preview"
-                            className="w-20 h-20 rounded-lg object-cover"
-                          />
-                        </div>
-                      )}
-                    </div>
 
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="display_order">Display Order</Label>
                         <Input
@@ -568,21 +612,23 @@ const Admin = () => {
                           onChange={(e) => setFormData(prev => ({ ...prev, display_order: parseInt(e.target.value) || 0 }))}
                         />
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Switch
-                          id="is_featured"
-                          checked={formData.is_featured}
-                          onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_featured: checked }))}
-                        />
-                        <Label htmlFor="is_featured">Featured</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Switch
-                          id="is_public"
-                          checked={formData.is_public}
-                          onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_public: checked }))}
-                        />
-                        <Label htmlFor="is_public">Public</Label>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="flex items-center space-x-2">
+                          <Switch
+                            id="is_featured"
+                            checked={formData.is_featured}
+                            onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_featured: checked }))}
+                          />
+                          <Label htmlFor="is_featured">Featured</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Switch
+                            id="is_public"
+                            checked={formData.is_public}
+                            onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_public: checked }))}
+                          />
+                          <Label htmlFor="is_public">Public</Label>
+                        </div>
                       </div>
                     </div>
                   </TabsContent>
@@ -758,6 +804,15 @@ const Admin = () => {
                     Photos
                   </Button>
                 </div>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => archiveArtist(artist.id)}
+                  className="w-full mt-2"
+                >
+                  <Archive className="w-4 h-4 mr-1" />
+                  Archive
+                </Button>
               </div>
             </Card>
           ))}
@@ -790,12 +845,30 @@ const Admin = () => {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {artistPhotos.map((photo) => (
                   <div key={photo.id} className="relative group">
-                    <img
-                      src={photo.image_url}
-                      alt={photo.caption || ''}
-                      className="w-full h-32 object-cover rounded-lg"
+                    <div 
+                      className="w-full h-32 rounded-lg overflow-hidden bg-gray-100"
+                      style={{
+                        backgroundImage: `url(${photo.image_url})`,
+                        backgroundPosition: `${photo.position_x || 50}% ${photo.position_y || 50}%`,
+                        backgroundSize: `${(photo.scale || 1) * 100}%`,
+                        backgroundRepeat: 'no-repeat'
+                      }}
                     />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-2">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => {
+                          const x = prompt('Enter X position (0-100):', String(photo.position_x || 50));
+                          const y = prompt('Enter Y position (0-100):', String(photo.position_y || 50));
+                          const scale = prompt('Enter scale (0.5-2.0):', String(photo.scale || 1));
+                          if (x !== null && y !== null && scale !== null) {
+                            updatePhotoPosition(photo.id, parseFloat(x), parseFloat(y), parseFloat(scale));
+                          }
+                        }}
+                      >
+                        <Move className="w-4 h-4" />
+                      </Button>
                       <Button
                         variant="destructive"
                         size="sm"
