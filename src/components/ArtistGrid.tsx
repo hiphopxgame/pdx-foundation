@@ -444,20 +444,22 @@ export default function ArtistGrid() {
           </p>
         </div>
 
-        {/* Featured Artists */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-semibold text-foreground mb-6 flex items-center gap-2">
-            <span className="w-1 h-6 bg-accent rounded-full"></span>
-            Featured Artists
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {artists
-              .filter(artist => artist.is_featured)
-              .map(artist => (
-                <ArtistCard key={artist.id} artist={artist} />
-              ))}
+        {/* Featured Artists - Only show if there are featured artists */}
+        {artists.some(artist => artist.is_featured) && (
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold text-foreground mb-6 flex items-center gap-2">
+              <span className="w-1 h-6 bg-accent rounded-full"></span>
+              Featured Artists
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {artists
+                .filter(artist => artist.is_featured)
+                .map(artist => (
+                  <ArtistCard key={artist.id} artist={artist} />
+                ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* All Artists */}
         <div>
