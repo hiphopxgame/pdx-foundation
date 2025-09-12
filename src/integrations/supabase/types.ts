@@ -850,6 +850,44 @@ export type Database = {
         }
         Relationships: []
       }
+      consultation_access_log: {
+        Row: {
+          access_type: string
+          accessed_at: string | null
+          accessed_by: string | null
+          consultation_id: string | null
+          id: string
+          ip_address: unknown | null
+          user_agent: string | null
+        }
+        Insert: {
+          access_type: string
+          accessed_at?: string | null
+          accessed_by?: string | null
+          consultation_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+        }
+        Update: {
+          access_type?: string
+          accessed_at?: string | null
+          accessed_by?: string | null
+          consultation_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consultation_access_log_consultation_id_fkey"
+            columns: ["consultation_id"]
+            isOneToOne: false
+            referencedRelation: "pormar_consultation_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_messages: {
         Row: {
           company: string | null
@@ -3793,6 +3831,10 @@ export type Database = {
       approve_import_batch: {
         Args: { batch_id: string }
         Returns: undefined
+      }
+      can_access_consultation: {
+        Args: { consultation_id: string }
+        Returns: boolean
       }
       create_admin_user: {
         Args: Record<PropertyKey, never>
