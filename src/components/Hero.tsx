@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Music, Users, MapPin, ArrowDown } from 'lucide-react';
 import heroBanner from '@/assets/pdx-nature-hero.jpg';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function Hero() {
+  const [artistCount, setArtistCount] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchArtistCount = async () => {
+      const { count } = await supabase
+        .from('artist_profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_public', true)
+        .eq('is_archived', false);
+      
+      setArtistCount(count || 0);
+    };
+
+    fetchArtistCount();
+  }, []);
+
   const scrollToArtists = () => {
     const artistsSection = document.querySelector('#artists');
     artistsSection?.scrollIntoView({ behavior: 'smooth' });
@@ -47,7 +64,7 @@ export default function Hero() {
         <div className="flex flex-wrap justify-center gap-6 mb-10 text-sm">
           <div className="flex items-center gap-2 bg-background/10 backdrop-blur-sm rounded-full px-4 py-2 border border-border/20">
             <Users className="w-4 h-4 text-primary" />
-            <span className="text-foreground font-semibold">25+ Artists</span>
+            <span className="text-foreground font-semibold">{artistCount} Artists</span>
           </div>
           <div className="flex items-center gap-2 bg-background/10 backdrop-blur-sm rounded-full px-4 py-2 border border-border/20">
             <MapPin className="w-4 h-4 text-accent" />
