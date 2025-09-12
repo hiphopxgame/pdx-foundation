@@ -63,13 +63,15 @@ export default function EventSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button variant="hero" size="lg">
-                <Calendar className="w-5 h-5 mr-2" />
-                RSVP Now
-              </Button>
-              <Button variant="outline" size="lg" className="bg-background/50 backdrop-blur-sm">
-                <MapPin className="w-5 h-5 mr-2" />
-                Get Directions
+              <Button variant="hero" size="lg" asChild>
+                <a 
+                  href="https://www.google.com/maps/dir//Covert+Caf%C3%A9,+803+SE+82nd+Ave,+Portland,+OR+97216/@45.5168084,-122.620532,13z/data=!4m9!4m8!1m0!1m5!1m1!1s0x5495a1a9fda3d12b:0x69e910d10ba4a5c!2m2!1d-122.5791431!2d45.5167612!3e0?entry=ttu&g_ep=EgoyMDI1MDkwOS4wIKXMDSoASAFQAw%3D%3D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MapPin className="w-5 h-5 mr-2" />
+                  Get Directions
+                </a>
               </Button>
             </div>
           </div>
