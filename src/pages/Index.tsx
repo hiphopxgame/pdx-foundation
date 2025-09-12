@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import Hero from '@/components/Hero';
+import EventSection from '@/components/EventSection';
 import ArtistGrid from '@/components/ArtistGrid';
 import { LogIn } from 'lucide-react';
 
@@ -34,6 +35,9 @@ const Index = () => {
       
       {/* Hero Section */}
       <Hero />
+      
+      {/* Event Section */}
+      <EventSection />
       
       {/* Artists Section */}
       <div id="artists">
