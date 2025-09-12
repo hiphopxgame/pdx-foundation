@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Music, Users, MapPin, ArrowDown } from 'lucide-react';
-import heroBanner from '@/assets/pdx-nature-hero.jpg';
+import heroBanner from '@/assets/botanical-roses-hero.jpg';
 import { supabase } from '@/integrations/supabase/client';
 
 export default function Hero() {
@@ -33,10 +33,10 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <img
           src={heroBanner}
-          alt="PDX Foundation Hero"
+          alt="PDX Foundation Botanical Hero"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 gradient-hero opacity-90"></div>
+        <div className="absolute inset-0 gradient-botanical opacity-85"></div>
       </div>
 
       {/* Content */}
@@ -107,8 +107,9 @@ export default function Hero() {
       </div>
 
       {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-primary/10 blur-xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-32 h-32 rounded-full bg-accent/10 blur-xl animate-pulse delay-1000"></div>
+      <div className="absolute top-20 left-20 w-32 h-32 rounded-full bg-primary/20 blur-2xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-24 h-24 rounded-full bg-accent/30 blur-xl animate-pulse delay-700"></div>
+      <div className="absolute top-1/2 left-10 w-16 h-16 rounded-full bg-primary/15 blur-lg animate-pulse delay-1000"></div>
     </section>
   );
 }
