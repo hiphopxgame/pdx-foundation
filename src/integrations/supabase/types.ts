@@ -3810,7 +3810,6 @@ export type Database = {
           bio: string | null
           created_at: string | null
           display_order: number | null
-          email: string | null
           facebook_url: string | null
           id: string | null
           instagram_url: string | null
@@ -3831,7 +3830,6 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           display_order?: number | null
-          email?: never
           facebook_url?: string | null
           id?: string | null
           instagram_url?: string | null
@@ -3852,7 +3850,6 @@ export type Database = {
           bio?: string | null
           created_at?: string | null
           display_order?: number | null
-          email?: never
           facebook_url?: string | null
           id?: string | null
           instagram_url?: string | null
