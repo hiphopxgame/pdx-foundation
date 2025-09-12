@@ -266,6 +266,20 @@ export type Database = {
             referencedRelation: "artist_profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "artist_photos_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artist_profiles_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "artist_photos_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "public_artist_profiles"
+            referencedColumns: ["id"]
+          },
         ]
       }
       artist_profiles: {
@@ -392,6 +406,20 @@ export type Database = {
             columns: ["artist_id"]
             isOneToOne: false
             referencedRelation: "artist_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "artist_videos_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artist_profiles_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "artist_videos_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "public_artist_profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -2215,10 +2243,38 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "music_videos_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "por_eve_profiles_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "music_videos_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "por_eve_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "music_videos_artist_id_fkey"
             columns: ["artist_id"]
             isOneToOne: false
             referencedRelation: "por_eve_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "music_videos_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "por_eve_profiles_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "music_videos_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "por_eve_public_profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -3437,6 +3493,20 @@ export type Database = {
             referencedRelation: "por_eve_profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "fk_user_events_created_by"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "por_eve_profiles_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_user_events_created_by"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "por_eve_public_profiles"
+            referencedColumns: ["id"]
+          },
         ]
       }
       user_roles: {
@@ -3552,7 +3622,252 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      artist_profiles_public: {
+        Row: {
+          apple_music_url: string | null
+          avatar_url: string | null
+          bandcamp_url: string | null
+          bio: string | null
+          created_at: string | null
+          display_order: number | null
+          facebook_url: string | null
+          id: string | null
+          instagram_url: string | null
+          is_featured: boolean | null
+          is_public: boolean | null
+          name: string | null
+          soundcloud_url: string | null
+          spotify_url: string | null
+          tiktok_url: string | null
+          twitter_url: string | null
+          updated_at: string | null
+          website_url: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          apple_music_url?: string | null
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          is_featured?: boolean | null
+          is_public?: boolean | null
+          name?: string | null
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          tiktok_url?: string | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          apple_music_url?: string | null
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          is_featured?: boolean | null
+          is_public?: boolean | null
+          name?: string | null
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          tiktok_url?: string | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: []
+      }
+      por_eve_profiles_public: {
+        Row: {
+          avatar_url: string | null
+          bandcamp_url: string | null
+          created_at: string | null
+          display_name: string | null
+          facebook_url: string | null
+          id: string | null
+          instagram_url: string | null
+          project_id: string | null
+          soundcloud_url: string | null
+          spotify_url: string | null
+          twitter_url: string | null
+          updated_at: string | null
+          username: string | null
+          website_url: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          project_id?: string | null
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          username?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          project_id?: string | null
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          username?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: []
+      }
+      por_eve_public_profiles: {
+        Row: {
+          avatar_url: string | null
+          bandcamp_url: string | null
+          city: string | null
+          created_at: string | null
+          display_name: string | null
+          facebook_url: string | null
+          id: string | null
+          instagram_url: string | null
+          project_id: string | null
+          soundcloud_url: string | null
+          spotify_url: string | null
+          state: string | null
+          twitter_url: string | null
+          updated_at: string | null
+          username: string | null
+          website_url: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          city?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          project_id?: string | null
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          state?: string | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          username?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          city?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          project_id?: string | null
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          state?: string | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          username?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: []
+      }
+      public_artist_profiles: {
+        Row: {
+          apple_music_url: string | null
+          avatar_url: string | null
+          bandcamp_url: string | null
+          bio: string | null
+          created_at: string | null
+          display_order: number | null
+          email: string | null
+          facebook_url: string | null
+          id: string | null
+          instagram_url: string | null
+          is_featured: boolean | null
+          name: string | null
+          soundcloud_url: string | null
+          spotify_url: string | null
+          tiktok_url: string | null
+          twitter_url: string | null
+          updated_at: string | null
+          website_url: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          apple_music_url?: string | null
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          email?: never
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          is_featured?: boolean | null
+          name?: string | null
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          tiktok_url?: string | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          apple_music_url?: string | null
+          avatar_url?: string | null
+          bandcamp_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          email?: never
+          facebook_url?: string | null
+          id?: string | null
+          instagram_url?: string | null
+          is_featured?: boolean | null
+          name?: string | null
+          soundcloud_url?: string | null
+          spotify_url?: string | null
+          tiktok_url?: string | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       approve_import_batch: {
