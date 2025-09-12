@@ -362,6 +362,7 @@ export default function ArtistGrid() {
           twitter_url
         `)
         .eq('is_public', true)
+        .eq('is_archived', false)
         .order('display_order', { ascending: true });
 
       if (error) {
