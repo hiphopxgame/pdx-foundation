@@ -11,7 +11,7 @@ export default function EventSection() {
           {/* Event Image */}
           <div className="relative">
             <img
-              src="/lovable-uploads/96efc671-3608-45ca-99b7-cdec0949cc4b.png"
+              src="/images/pdx-showcase-event.png"
               alt="PDX.Foundation Showcase Event"
               className="w-full rounded-2xl shadow-elegant"
             />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Music, Users, MapPin, ArrowDown } from 'lucide-react';
-import heroBanner from '@/assets/botanical-roses-hero.jpg';
+
 import { supabase } from '@/integrations/supabase/client';
 
 export default function Hero() {
@@ -32,7 +32,7 @@ export default function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src={heroBanner}
+          src="/images/botanical-roses-hero.jpg"
           alt="PDX Foundation Botanical Hero"
           className="w-full h-full object-cover"
         />
