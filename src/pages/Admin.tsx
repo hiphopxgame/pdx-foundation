@@ -52,7 +52,7 @@ interface ArtistPhoto {
 }
 
 const Admin = () => {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const [artists, setArtists] = useState<ArtistProfile[]>([]);
   const [selectedArtist, setSelectedArtist] = useState<ArtistProfile | null>(null);
@@ -66,12 +66,16 @@ const Admin = () => {
   const [uploadingFile, setUploadingFile] = useState(false);
   const { toast } = useToast();
 
-  // Redirect to auth if not authenticated
+  // Redirect to auth if not authenticated or not admin
   useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/auth');
+    if (!authLoading) {
+      if (!user) {
+        navigate('/auth');
+      } else if (!isAdmin) {
+        navigate('/profile');
+      }
     }
-  }, [user, authLoading, navigate]);
+  }, [user, isAdmin, authLoading, navigate]);
 
   const [formData, setFormData] = useState<Partial<ArtistProfile>>({
     name: '',

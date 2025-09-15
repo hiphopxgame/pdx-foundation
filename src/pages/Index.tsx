@@ -8,18 +8,26 @@ import DonationSection from '@/components/DonationSection';
 import { LogIn } from 'lucide-react';
 
 const Index = () => {
-  const { user, signOut } = useAuth();
+  const { user, isAdmin, signOut } = useAuth();
 
   return (
     <div className="min-h-screen bg-background">
       <div className="absolute top-4 right-4 z-10">
         {user ? (
           <div className="flex items-center gap-2">
-            <Link to="/admin">
-              <Button variant="outline" size="sm">
-                Admin Panel
-              </Button>
-            </Link>
+            {isAdmin ? (
+              <Link to="/admin">
+                <Button variant="outline" size="sm">
+                  Admin Panel
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/profile">
+                <Button variant="outline" size="sm">
+                  My Profile
+                </Button>
+              </Link>
+            )}
             <Button variant="outline" size="sm" onClick={signOut}>
               Sign Out
             </Button>
