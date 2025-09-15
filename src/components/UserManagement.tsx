@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { Edit, Mail, Globe, Archive, Eye, EyeOff, Star, User } from 'lucide-react';
 
@@ -349,64 +350,74 @@ const UserManagement = () => {
           </DialogHeader>
           
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="name">Name *</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                />
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="bio">Bio</Label>
-              <Textarea
-                id="bio"
-                value={formData.bio}
-                onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
-                rows={3}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="display_order">Display Order</Label>
-                <Input
-                  id="display_order"
-                  type="number"
-                  value={formData.display_order}
-                  onChange={(e) => setFormData(prev => ({ ...prev, display_order: parseInt(e.target.value) || 0 }))}
-                />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="is_featured"
-                    checked={formData.is_featured}
-                    onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_featured: checked }))}
-                  />
-                  <Label htmlFor="is_featured">Featured</Label>
+            <Tabs defaultValue="basic" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="basic">Basic Info</TabsTrigger>
+                <TabsTrigger value="social">Social Links</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="basic" className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="name">Name *</Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    />
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="is_public"
-                    checked={formData.is_public}
-                    onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_public: checked }))}
+
+                <div>
+                  <Label htmlFor="bio">Bio</Label>
+                  <Textarea
+                    id="bio"
+                    value={formData.bio}
+                    onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                    rows={4}
                   />
-                  <Label htmlFor="is_public">Public</Label>
                 </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="display_order">Display Order</Label>
+                    <Input
+                      id="display_order"
+                      type="number"
+                      value={formData.display_order}
+                      onChange={(e) => setFormData(prev => ({ ...prev, display_order: parseInt(e.target.value) || 0 }))}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        id="is_featured"
+                        checked={formData.is_featured}
+                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_featured: checked }))}
+                      />
+                      <Label htmlFor="is_featured">Featured</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        id="is_public"
+                        checked={formData.is_public}
+                        onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_public: checked }))}
+                      />
+                      <Label htmlFor="is_public">Public</Label>
+                    </div>
+                  </div>
+                </div>
+                
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="is_email_public"
@@ -415,8 +426,103 @@ const UserManagement = () => {
                   />
                   <Label htmlFor="is_email_public">Email Public</Label>
                 </div>
-              </div>
-            </div>
+              </TabsContent>
+              
+              <TabsContent value="social" className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="website_url">Website</Label>
+                    <Input
+                      id="website_url"
+                      value={formData.website_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, website_url: e.target.value }))}
+                      placeholder="https://"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="instagram_url">Instagram</Label>
+                    <Input
+                      id="instagram_url"
+                      value={formData.instagram_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, instagram_url: e.target.value }))}
+                      placeholder="https://instagram.com/"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="youtube_url">YouTube</Label>
+                    <Input
+                      id="youtube_url"
+                      value={formData.youtube_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, youtube_url: e.target.value }))}
+                      placeholder="https://youtube.com/"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="spotify_url">Spotify</Label>
+                    <Input
+                      id="spotify_url"
+                      value={formData.spotify_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, spotify_url: e.target.value }))}
+                      placeholder="https://open.spotify.com/"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="bandcamp_url">Bandcamp</Label>
+                    <Input
+                      id="bandcamp_url"
+                      value={formData.bandcamp_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, bandcamp_url: e.target.value }))}
+                      placeholder="https://.bandcamp.com"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="apple_music_url">Apple Music</Label>
+                    <Input
+                      id="apple_music_url"
+                      value={formData.apple_music_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, apple_music_url: e.target.value }))}
+                      placeholder="https://music.apple.com/"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="soundcloud_url">SoundCloud</Label>
+                    <Input
+                      id="soundcloud_url"
+                      value={formData.soundcloud_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, soundcloud_url: e.target.value }))}
+                      placeholder="https://soundcloud.com/"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="tiktok_url">TikTok</Label>
+                    <Input
+                      id="tiktok_url"
+                      value={formData.tiktok_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, tiktok_url: e.target.value }))}
+                      placeholder="https://tiktok.com/"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="facebook_url">Facebook</Label>
+                    <Input
+                      id="facebook_url"
+                      value={formData.facebook_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, facebook_url: e.target.value }))}
+                      placeholder="https://facebook.com/"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="twitter_url">Twitter</Label>
+                    <Input
+                      id="twitter_url"
+                      value={formData.twitter_url}
+                      onChange={(e) => setFormData(prev => ({ ...prev, twitter_url: e.target.value }))}
+                      placeholder="https://twitter.com/"
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
 
             <div className="flex justify-end gap-2 pt-4">
               <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
