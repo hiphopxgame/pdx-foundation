@@ -69,14 +69,67 @@ const Profile = () => {
   const loadProfile = async () => {
     try {
       setIsLoading(true);
+      console.log('Loading profile for user:', user!.id);
+      
       const { data, error } = await supabase
         .from('por_eve_profiles')
         .select('*')
         .eq('id', user!.id)
-        .single();
+        .maybeSingle();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Database error loading profile:', error);
+        throw error;
+      }
 
+      if (!data) {
+        console.log('No profile found, creating one...');
+        // If no profile exists, create one
+        const { data: newProfile, error: createError } = await supabase
+          .from('por_eve_profiles')
+          .insert({
+            id: user!.id,
+            email: user!.email!,
+            display_name: user!.email!.split('@')[0],
+            username: user!.email!.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '_'),
+            project_id: 'portland-events'
+          })
+          .select()
+          .single();
+
+        if (createError) {
+          console.error('Error creating profile:', createError);
+          throw createError;
+        }
+
+        setProfile({
+          ...newProfile,
+          email: user!.email || newProfile.email,
+        });
+        
+        setFormData({
+          display_name: newProfile.display_name || '',
+          username: newProfile.username || '',
+          website_url: newProfile.website_url || '',
+          instagram_url: newProfile.instagram_url || '',
+          youtube_url: newProfile.youtube_url || '',
+          spotify_url: newProfile.spotify_url || '',
+          bandcamp_url: newProfile.bandcamp_url || '',
+          apple_music_url: '',
+          soundcloud_url: newProfile.soundcloud_url || '',
+          tiktok_url: '',
+          facebook_url: newProfile.facebook_url || '',
+          twitter_url: newProfile.twitter_url || '',
+        });
+        
+        toast({
+          title: "Profile Created",
+          description: "Your profile has been created successfully",
+        });
+        return;
+      }
+
+      console.log('Profile loaded successfully:', data);
       const profileData = {
         ...data,
         email: user!.email || data.email,
@@ -101,7 +154,7 @@ const Profile = () => {
       console.error('Error loading profile:', error);
       toast({
         title: "Error",
-        description: "Failed to load profile",
+        description: error.message || "Failed to load profile",
         variant: "destructive",
       });
     } finally {
