@@ -77,7 +77,7 @@ export default function Hero() {
         </div>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        <div className="flex justify-center mb-12">
           <Button 
             variant="hero" 
             size="hero" 
@@ -86,14 +86,6 @@ export default function Hero() {
           >
             <Users className="w-5 h-5 mr-2" />
             Discover Artists
-          </Button>
-          <Button 
-            variant="outline" 
-            size="hero"
-            className="text-lg bg-background/10 backdrop-blur-sm border-border/30 hover:bg-background/20"
-          >
-            <Music className="w-5 h-5 mr-2" />
-            Listen Now
           </Button>
         </div>
 
