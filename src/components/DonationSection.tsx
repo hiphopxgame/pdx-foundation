@@ -109,8 +109,8 @@ const DonationSection = () => {
                 </div>
               </div>
 
-              {/* Donation Button */}
-              <div className="space-y-3">
+              {/* Primary Donation Button - Removed for PayPal only */}
+              <div className="hidden">
                 <Button 
                   size="lg" 
                   className="w-full h-12"
@@ -135,63 +135,91 @@ const DonationSection = () => {
                   <Heart className="w-4 h-4 mr-2" />
                   Donate ${getCurrentAmount() || 0}
                 </Button>
-                
-                {/* PayPal Integration - Hidden for now */}
-                <div className="hidden">
-                  <PayPalScriptProvider options={{
-                    clientId: "demo", // Replace with your actual PayPal client ID
-                    currency: "USD",
-                    intent: "capture"
-                  }}>
-                    <PayPalButtons
-                      style={{
-                        layout: "vertical",
-                        color: "blue",
-                        shape: "rect",
-                        label: "donate"
-                      }}
-                      createOrder={(data, actions) => {
-                        const amount = getCurrentAmount();
-                        if (!amount || amount <= 0) {
-                          return Promise.reject();
-                        }
-
-                        return actions.order.create({
-                          intent: "CAPTURE",
-                          purchase_units: [{
-                            amount: {
-                              currency_code: "USD",
-                              value: amount.toString()
-                            },
-                            description: "Donation to PDX.Foundation"
-                          }]
-                        });
-                      }}
-                      onApprove={async (data, actions) => {
-                        if (!actions.order) return;
-                        
-                        try {
-                          const details = await actions.order.capture();
-                          toast({
-                            title: "Thank You!",
-                            description: `Your donation of $${getCurrentAmount()} has been processed successfully.`,
-                          });
-                        } catch (error) {
-                          toast({
-                            title: "Error",
-                            description: "There was an issue processing your donation. Please try again.",
-                            variant: "destructive",
-                          });
-                        }
-                      }}
-                    />
-                  </PayPalScriptProvider>
-                </div>
               </div>
+                
+              {/* PayPal Integration */}
+              <div className="mt-4">
+                <div className="text-center text-sm text-muted-foreground mb-2">
+                  Or donate with PayPal:
+                </div>
+                <PayPalScriptProvider options={{
+                  clientId: "AYGAe2Q-c5PKcmT1kR-OGJ8Qp6B-jj9E3RSw-4QgKb7vkYE8-m7t5b4EdZlNCJnE5lLNemE-DWILZ2Uf", // Replace with your actual PayPal client ID
+                  currency: "USD",
+                  intent: "capture"
+                }}>
+                  <PayPalButtons
+                    style={{
+                      layout: "vertical",
+                      color: "gold",
+                      shape: "rect",
+                      label: "donate",
+                      height: 45
+                    }}
+                    createOrder={(data, actions) => {
+                      const amount = getCurrentAmount();
+                      if (!amount || amount <= 0) {
+                        toast({
+                          title: "Invalid Amount",
+                          description: "Please select or enter a valid donation amount.",
+                          variant: "destructive",
+                        });
+                        return Promise.reject();
+                      }
 
-              <p className="text-xs text-muted-foreground mt-4 text-center">
-                Secure payments processed by PayPal. Your donation helps support Portland's music community.
-              </p>
+                      return actions.order.create({
+                        intent: "CAPTURE",
+                        purchase_units: [{
+                          amount: {
+                            currency_code: "USD",
+                            value: amount.toString()
+                          },
+                          description: `Donation to PDX.Foundation - $${amount}`
+                        }]
+                      });
+                    }}
+                    onApprove={async (data, actions) => {
+                      if (!actions.order) return;
+                      
+                      try {
+                        const details = await actions.order.capture();
+                        toast({
+                          title: "Thank You!",
+                          description: `Your donation of $${getCurrentAmount()} has been processed successfully! Transaction ID: ${details.id}`,
+                        });
+                        
+                        // Reset the form after successful donation
+                        setSelectedAmount(25);
+                        setCustomAmount('');
+                      } catch (error) {
+                        console.error('PayPal donation error:', error);
+                        toast({
+                          title: "Payment Error",
+                          description: "There was an issue processing your donation. Please try again.",
+                          variant: "destructive",
+                        });
+                      }
+                    }}
+                    onError={(err) => {
+                      console.error('PayPal error:', err);
+                      toast({
+                        title: "Payment Error",
+                        description: "PayPal encountered an error. Please try again.",
+                        variant: "destructive",
+                      });
+                    }}
+                    onCancel={() => {
+                      toast({
+                        title: "Payment Cancelled",
+                        description: "Your donation was cancelled.",
+                      });
+                    }}
+                  />
+                 </PayPalScriptProvider>
+               </div>
+
+               <p className="text-xs text-muted-foreground mt-4 text-center">
+                 Secure payments processed by PayPal. Your donation helps support Portland's music community.
+               </p>
             </CardContent>
           </Card>
         </div>
