@@ -12,8 +12,9 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Edit, Upload, Trash2, Star, Image as ImageIcon, LogOut, Archive, Move } from 'lucide-react';
+import { Plus, Edit, Upload, Trash2, Star, Image as ImageIcon, LogOut, Archive, Move, Users } from 'lucide-react';
 import ImageEditor from '@/components/ImageEditor';
+import UserManagement from '@/components/UserManagement';
 
 interface ArtistProfile {
   id: string;
@@ -534,6 +535,13 @@ const Admin = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-8 px-4">
+        <Tabs defaultValue="artists" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="artists">Artist Management</TabsTrigger>
+            <TabsTrigger value="users">User Management</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="artists" className="space-y-6">
         {/* Action Bar */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-4">
@@ -901,6 +909,12 @@ const Admin = () => {
           onSave={handleImageEditorSave}
           aspectRatio={16 / 9} // Adjust based on your preferred aspect ratio
         />
+          </TabsContent>
+          
+          <TabsContent value="users" className="space-y-6">
+            <UserManagement />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
