@@ -167,7 +167,7 @@ const Profile = () => {
     setIsSaving(true);
 
     try {
-      // Only send fields that exist in the database
+      // Only send fields that exist in the database - excluding apple_music_url and tiktok_url
       const updateData = {
         display_name: formData.display_name,
         username: formData.username,
@@ -181,14 +181,22 @@ const Profile = () => {
         twitter_url: formData.twitter_url,
       };
 
-      const { error } = await supabase
+      console.log('Updating profile with data:', updateData);
+
+      const { data, error } = await supabase
         .from('por_eve_profiles')
         .update(updateData)
-        .eq('id', user!.id);
+        .eq('id', user!.id)
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Profile update error:', error);
+        throw error;
+      }
 
-      setProfile(prev => prev ? { ...prev, ...updateData } : null);
+      console.log('Profile update successful:', data);
+      setProfile(prev => prev ? { ...prev, ...data } : null);
       
       toast({
         title: "Success",
@@ -198,7 +206,7 @@ const Profile = () => {
       console.error('Error updating profile:', error);
       toast({
         title: "Error",
-        description: "Failed to update profile",
+        description: error.message || "Failed to update profile",
         variant: "destructive",
       });
     } finally {
@@ -230,12 +238,19 @@ const Profile = () => {
     setIsSaving(true);
 
     try {
-      const { error } = await supabase.auth.updateUser({
+      console.log('Attempting to update password...');
+      
+      const { data, error } = await supabase.auth.updateUser({
         password: newPassword
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Password update error:', error);
+        throw error;
+      }
 
+      console.log('Password update successful:', data);
+      
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
