@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, Music, Users } from 'lucide-react';
+import { Heart, Music, Users, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const DonationSection = () => {
   const [selectedAmount, setSelectedAmount] = useState(25);
   const [customAmount, setCustomAmount] = useState('');
+  const [paypalClientId, setPaypalClientId] = useState<string>('');
+  const [isLoadingConfig, setIsLoadingConfig] = useState(true);
   const { toast } = useToast();
 
   const predefinedAmounts = [10, 25, 50, 100];
@@ -30,6 +33,40 @@ const DonationSection = () => {
   const getCurrentAmount = () => {
     return customAmount ? parseFloat(customAmount) : selectedAmount;
   };
+
+  // Fetch PayPal configuration from Supabase
+  useEffect(() => {
+    const fetchPayPalConfig = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('get-paypal-config');
+        
+        if (error) {
+          console.error('Error fetching PayPal config:', error);
+          toast({
+            title: "Configuration Error",
+            description: "Unable to load payment configuration. Please try again later.",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        if (data?.clientId) {
+          setPaypalClientId(data.clientId);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        toast({
+          title: "Error",
+          description: "Failed to initialize payment system.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingConfig(false);
+      }
+    };
+
+    fetchPayPalConfig();
+  }, [toast]);
 
   return (
     <section className="py-20 px-4 bg-gradient-to-br from-background via-background to-primary/5">
@@ -140,13 +177,19 @@ const DonationSection = () => {
               {/* PayPal Integration */}
               <div className="mt-4">
                 <div className="text-center text-sm text-muted-foreground mb-2">
-                  Or donate with PayPal:
+                  Donate with PayPal:
                 </div>
-                <PayPalScriptProvider options={{
-                  clientId: "YOUR_PAYPAL_CLIENT_ID_HERE", // Replace this with your actual PayPal Client ID
-                  currency: "USD",
-                  intent: "capture"
-                }}>
+                {isLoadingConfig ? (
+                  <div className="flex items-center justify-center p-8">
+                    <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                    <span className="ml-2 text-muted-foreground">Loading payment options...</span>
+                  </div>
+                ) : paypalClientId ? (
+                  <PayPalScriptProvider options={{
+                    clientId: paypalClientId,
+                    currency: "USD",
+                    intent: "capture"
+                  }}>
                   <PayPalButtons
                     style={{
                       layout: "vertical",
@@ -214,8 +257,13 @@ const DonationSection = () => {
                       });
                     }}
                   />
-                 </PayPalScriptProvider>
-               </div>
+                  </PayPalScriptProvider>
+                ) : (
+                  <div className="text-center p-4 text-muted-foreground">
+                    Payment system unavailable. Please try again later.
+                  </div>
+                )}
+              </div>
 
                <p className="text-xs text-muted-foreground mt-4 text-center">
                  Secure payments processed by PayPal. Your donation helps support Portland's music community.
