@@ -575,6 +575,48 @@ export type Database = {
         }
         Relationships: []
       }
+      cbake_cart_items: {
+        Row: {
+          created_at: string
+          dough_type: string | null
+          filling: string | null
+          id: string
+          product_id: string | null
+          product_name: string
+          quantity: number
+          special_instructions: string | null
+          unit_price: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          dough_type?: string | null
+          filling?: string | null
+          id?: string
+          product_id?: string | null
+          product_name: string
+          quantity?: number
+          special_instructions?: string | null
+          unit_price: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          dough_type?: string | null
+          filling?: string | null
+          id?: string
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          special_instructions?: string | null
+          unit_price?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       cbake_messages: {
         Row: {
           created_at: string
