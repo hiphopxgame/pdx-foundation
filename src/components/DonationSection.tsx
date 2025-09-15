@@ -143,7 +143,7 @@ const DonationSection = () => {
                   Or donate with PayPal:
                 </div>
                 <PayPalScriptProvider options={{
-                  clientId: "AYGAe2Q-c5PKcmT1kR-OGJ8Qp6B-jj9E3RSw-4QgKb7vkYE8-m7t5b4EdZlNCJnE5lLNemE-DWILZ2Uf", // Replace with your actual PayPal client ID
+                  clientId: "YOUR_PAYPAL_CLIENT_ID_HERE", // Replace this with your actual PayPal Client ID
                   currency: "USD",
                   intent: "capture"
                 }}>
