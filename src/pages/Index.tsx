@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Hero from '@/components/Hero';
 import EventSection from '@/components/EventSection';
 import ArtistGrid from '@/components/ArtistGrid';
+import DonationSection from '@/components/DonationSection';
 import { LogIn } from 'lucide-react';
 
 const Index = () => {
@@ -43,6 +44,9 @@ const Index = () => {
       <div id="artists">
         <ArtistGrid />
       </div>
+      
+      {/* Donation Section */}
+      <DonationSection />
       
       {/* Footer */}
       <footer className="border-t border-border py-12 px-4">
