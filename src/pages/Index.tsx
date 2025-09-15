@@ -63,7 +63,7 @@ const Index = () => {
             PDX.Foundation
           </h3>
           <p className="text-muted-foreground mb-6">
-            Amplifying Portland's musical voices since 2024
+            Amplifying Portland, Oregon's since 2025.
           </p>
           <div className="flex justify-center gap-6 text-sm text-muted-foreground">
             <span>© 2024 PDX.Foundation</span>
