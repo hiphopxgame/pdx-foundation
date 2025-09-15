@@ -66,7 +66,7 @@ const Index = () => {
             Amplifying Portland, Oregon's since 2025.
           </p>
           <div className="flex justify-center gap-6 text-sm text-muted-foreground">
-            <span>© 2024 PDX.Foundation</span>
+            <span>© 2025 PDX.Foundation</span>
             <span>•</span>
             <span>Portland, Oregon</span>
           </div>
