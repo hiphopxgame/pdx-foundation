@@ -1,20 +1,11 @@
 import React from 'react';
 import ArtistGrid from '@/components/ArtistGrid';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Home } from 'lucide-react';
+import Navigation from '@/components/Navigation';
 
 const Artists = () => {
   return (
     <div className="min-h-screen bg-background">
-      <div className="absolute top-4 left-4 z-10">
-        <Link to="/">
-          <Button variant="outline" size="sm">
-            <Home className="w-4 h-4 mr-2" />
-            Home
-          </Button>
-        </Link>
-      </div>
+      <Navigation />
       
       <main className="pt-16">
         <ArtistGrid />

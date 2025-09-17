@@ -1,44 +1,24 @@
-import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@/components/ui/button';
 import Hero from '@/components/Hero';
 import EventSection from '@/components/EventSection';
 import DonationSection from '@/components/DonationSection';
+import Navigation from '@/components/Navigation';
 
 const Index = () => {
-  const { isAdmin } = useAuth();
-
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="absolute top-4 right-4 z-10 flex items-center gap-2">
-        <Link to="/artists">
-          <Button variant="outline" size="sm">
-            Artists
-          </Button>
-        </Link>
-        <Link to="/events">
-          <Button variant="outline" size="sm">
-            Events
-          </Button>
-        </Link>
-        {isAdmin && (
-          <Link to="/admin">
-            <Button variant="outline" size="sm">
-              Admin Panel
-            </Button>
-          </Link>
-        )}
-      </nav>
+      <Navigation />
       
-      {/* Hero Section */}
-      <Hero />
-      
-      {/* Event Section */}
-      <EventSection />
-      
-      {/* Donation Section */}
-      <DonationSection />
+      <main className="pt-16">{/* Add padding-top to account for fixed nav */}
+        {/* Hero Section */}
+        <Hero />
+        
+        {/* Event Section */}
+        <EventSection />
+        
+        {/* Donation Section */}
+        <DonationSection />
+      </main>
       
       {/* Footer */}
       <footer className="border-t border-border py-12 px-4">
