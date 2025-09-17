@@ -7,6 +7,8 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
+import Artists from "./pages/Artists";
+import Events from "./pages/Events";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
@@ -16,6 +18,8 @@ const App = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/artists" element={<Artists />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/auth" element={<Auth />} />

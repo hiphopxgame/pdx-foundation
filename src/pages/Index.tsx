@@ -3,7 +3,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import Hero from '@/components/Hero';
 import EventSection from '@/components/EventSection';
-import ArtistGrid from '@/components/ArtistGrid';
 import DonationSection from '@/components/DonationSection';
 
 const Index = () => {
@@ -11,26 +10,32 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {isAdmin && (
-        <div className="absolute top-4 right-4 z-10">
+      {/* Navigation */}
+      <nav className="absolute top-4 right-4 z-10 flex items-center gap-2">
+        <Link to="/artists">
+          <Button variant="outline" size="sm">
+            Artists
+          </Button>
+        </Link>
+        <Link to="/events">
+          <Button variant="outline" size="sm">
+            Events
+          </Button>
+        </Link>
+        {isAdmin && (
           <Link to="/admin">
             <Button variant="outline" size="sm">
               Admin Panel
             </Button>
           </Link>
-        </div>
-      )}
+        )}
+      </nav>
       
       {/* Hero Section */}
       <Hero />
       
       {/* Event Section */}
       <EventSection />
-      
-      {/* Artists Section */}
-      <div id="artists">
-        <ArtistGrid />
-      </div>
       
       {/* Donation Section */}
       <DonationSection />
