@@ -1,5 +1,6 @@
 import React from 'react';
 import ArtistGrid from '@/components/ArtistGrid';
+import DonationSection from '@/components/DonationSection';
 import Navigation from '@/components/Navigation';
 
 const Artists = () => {
@@ -9,6 +10,7 @@ const Artists = () => {
       
       <main className="pt-16">
         <ArtistGrid />
+        <DonationSection />
       </main>
       
       <footer className="border-t border-border py-12 px-4">

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Clock, MapPin, Ticket } from 'lucide-react';
+import DonationSection from '@/components/DonationSection';
 import Navigation from '@/components/Navigation';
 
 const Events = () => {
@@ -117,6 +118,7 @@ const Events = () => {
             </div>
           </div>
         </section>
+        <DonationSection />
       </main>
       
       <footer className="border-t border-border py-12 px-4">
