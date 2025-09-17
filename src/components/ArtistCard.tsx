@@ -29,6 +29,7 @@ interface SocialLinks {
 
 interface ArtistProfile {
   id: string;
+  slug: string;
   name: string;
   bio?: string;
   email?: string;
@@ -130,7 +131,7 @@ export default function ArtistCard({ artist, showPhotos = false, showVideos = fa
 
         {/* Action Buttons */}
         <div className="flex gap-2 pt-2">
-          <Link to={`/artists/${artist.id}`} className="flex-1">
+          <Link to={`/artists/${artist.slug}`} className="flex-1">
             <Button variant="hero" size="sm" className="w-full">
               <Play className="w-4 h-4" />
               View Profile

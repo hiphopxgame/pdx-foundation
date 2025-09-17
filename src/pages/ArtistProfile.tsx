@@ -81,24 +81,25 @@ const SocialIcon = ({ platform, url, label }: { platform: string; url: string; l
 };
 
 const ArtistProfile = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const [artist, setArtist] = useState<ArtistData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    if (id) {
-      loadArtistProfile(id);
+    if (slug) {
+      loadArtistProfile(slug);
     }
-  }, [id]);
+  }, [slug]);
 
-  const loadArtistProfile = async (artistId: string) => {
+  const loadArtistProfile = async (artistSlug: string) => {
     try {
       // Load artist profile
       const { data: artistData, error: artistError } = await supabase
         .from('artist_profiles')
         .select(`
           id,
+          slug,
           name,
           bio,
           avatar_url,
@@ -114,7 +115,7 @@ const ArtistProfile = () => {
           facebook_url,
           twitter_url
         `)
-        .eq('id', artistId)
+        .eq('slug', artistSlug)
         .eq('is_public', true)
         .eq('is_archived', false)
         .maybeSingle();
@@ -142,7 +143,7 @@ const ArtistProfile = () => {
       const { data: photosData } = await supabase
         .from('artist_photos')
         .select('image_url')
-        .eq('artist_id', artistId)
+        .eq('artist_id', artistData.id)
         .order('display_order', { ascending: true });
 
       const photos = photosData?.map(photo => photo.image_url) || [];

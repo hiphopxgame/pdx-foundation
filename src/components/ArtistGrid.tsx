@@ -17,6 +17,7 @@ interface SocialLinks {
 
 interface ArtistProfile {
   id: string;
+  slug: string;
   name: string;
   bio: string;
   email: string;
@@ -25,10 +26,22 @@ interface ArtistProfile {
   social_links: SocialLinks;
 }
 
+// Helper function to generate slug from name
+const generateSlug = (name: string): string => {
+  return name
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9\s\-_]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/\-+/g, '-')
+    .trim()
+    .replace(/^-+|-+$/g, '');
+};
+
 // Real PDX Foundation Artists
-const mockArtists = [
+const mockArtists: ArtistProfile[] = [
   {
     id: '1',
+    slug: generateSlug('Jessica Is Everywhere'),
     name: 'Jessica Is Everywhere',
     bio: 'Jessica.Iseverywhere is a visual storyteller that captures the intimate electricity of live performance, moving with the artist and the music they make. I try to translate stage presence into emotion, rhythm, and raw human connection. Highlighting the heart of the PNW\'s underground scene and amplifying voices often unheard.',
     email: 'Pnwfieldtrips@gmail.com',
@@ -42,6 +55,7 @@ const mockArtists = [
   },
   {
     id: '2',
+    slug: generateSlug('Mental Stamina'),
     name: 'Mental Stamina',
     bio: '',
     email: 'Tyronenorris@gmail.com',
@@ -53,6 +67,7 @@ const mockArtists = [
   },
   {
     id: '3',
+    slug: generateSlug('Zodi Zac'),
     name: 'Zodi Zac',
     bio: 'After landing on earth, Zodi first touched the forbidden vinyl at the early age of 2 & has been addicted ever since. An eternal student/teacher, ready to listen, learn, & scratch. If you are seeing Z perform, the stars have aligned.',
     email: 'zodizac@protonmail.com',
@@ -64,6 +79,7 @@ const mockArtists = [
   },
   {
     id: '4',
+    slug: generateSlug('Kaufman'),
     name: 'Kaufman',
     bio: 'Kaufman is passed at Flappers in Burbank. He has worked the Icehouse in Pasadena & Alameda Comedy Club and appeared at Broadway Comedy Club in Manhattan.',
     email: 'barakanoel@gmail.com',
@@ -77,6 +93,7 @@ const mockArtists = [
   },
   {
     id: '5',
+    slug: generateSlug('Bex & the Bees'),
     name: 'Bex & the Bees',
     bio: '',
     email: '',
@@ -88,6 +105,7 @@ const mockArtists = [
   },
   {
     id: '6',
+    slug: generateSlug('Shane Farnell'),
     name: 'Shane Farnell',
     bio: 'Folk-punk singer-songwriter based out of Portland, Oregon.',
     email: 'Shanemichaelfarnell@gmail.com',
@@ -102,6 +120,7 @@ const mockArtists = [
   },
   {
     id: '7',
+    slug: generateSlug('Scott Allen'),
     name: 'Scott Allen',
     bio: '',
     email: 'scottallencello@gmail.com',
@@ -113,6 +132,7 @@ const mockArtists = [
   },
   {
     id: '8',
+    slug: generateSlug('Matt Varga'),
     name: 'Matt Varga',
     bio: 'Human/Alien Scientific/Spiritual Violinist/Guitarist Enjoying the walk home (RIP Ram Dass), let\'s walk together! Looking to be the change',
     email: 'matt.varga@gmail.com',
@@ -124,6 +144,7 @@ const mockArtists = [
   },
   {
     id: '9',
+    slug: generateSlug('Colton Herman'),
     name: 'Colton Herman',
     bio: 'Producer turned Vegan Activist touring the United States, living from his car.',
     email: 'cltnhrmn@gmail.com',
@@ -135,6 +156,7 @@ const mockArtists = [
   },
   {
     id: '10',
+    slug: generateSlug('Billions Under Millions'),
     name: 'Billions Under Millions',
     bio: '',
     email: 'polomolly23@gmail.com',
@@ -146,6 +168,7 @@ const mockArtists = [
   },
   {
     id: '11',
+    slug: generateSlug('Diction Uno'),
     name: 'Diction Uno',
     bio: '',
     email: 'dictionuno@gmail.com',
@@ -163,6 +186,7 @@ const mockArtists = [
   },
   {
     id: '12',
+    slug: generateSlug('G\'Odd'),
     name: 'G\'Odd',
     bio: 'G\'Odd is an experimental rapper, producer and multi media artist making extensive projects with album, movie, visual art and performance elements. These undertaking tend to focus on a crossroads of depravity and enlightenment.',
     email: '',
@@ -175,6 +199,7 @@ const mockArtists = [
   },
   {
     id: '13',
+    slug: generateSlug('Lemon Vice'),
     name: 'Lemon Vice',
     bio: 'Live Sound Engineer, Artist, Song Writer, Musician, Producer, College Student 🍋',
     email: 'Lemonvic3@gmail.com',
@@ -191,6 +216,7 @@ const mockArtists = [
   },
   {
     id: '14',
+    slug: generateSlug('Your Homie Kyle'),
     name: 'Your Homie Kyle',
     bio: '',
     email: 'Yourhomiekyle@gmail.com',
@@ -203,6 +229,7 @@ const mockArtists = [
   },
   {
     id: '15',
+    slug: generateSlug('Obbium'),
     name: 'Obbium',
     bio: 'OBBI is an experimental musician and producer behind the Obbium brand, blending raw emotion with genre-bending soundscapes. His music explores transformation, connection, and spiritual growth through layered beats and mindful frequencies. Inspired by holistic living and ancient wisdom, OBBI crafts songs that nourish both heart and mind. He invites listeners into a sonic journey of self-discovery and collective experience',
     email: 'obbiumbrand@gmail.com',
@@ -215,6 +242,7 @@ const mockArtists = [
   },
   {
     id: '16',
+    slug: generateSlug('The Oregonization'),
     name: 'The Oregonization',
     bio: 'The Oregonization is J Reid!! We have features from numerous artists which help make up The O. To see more, please visit theoregonization.com',
     email: '503oregonization@gmail.com',
@@ -228,6 +256,7 @@ const mockArtists = [
   },
   {
     id: '17',
+    slug: generateSlug('Magi Love'),
     name: 'Magi Love',
     bio: '✨ Alchemist of the heart. Spread LOVE 🌀 Transmuting pain into power 📖 Author: The Discipline of Love 💛 A path to spiritual growth',
     email: 'Iamlove7272@gmail.com',
@@ -239,6 +268,7 @@ const mockArtists = [
   },
   {
     id: '18',
+    slug: generateSlug('Gift'),
     name: 'Gift',
     bio: '',
     email: 'Giftsharp66@gmail.com',
@@ -250,6 +280,7 @@ const mockArtists = [
   },
   {
     id: '19',
+    slug: generateSlug('Dezifel'),
     name: 'Dezifel',
     bio: '',
     email: 'desidesignsstuff2447@gmail.com',
@@ -261,6 +292,7 @@ const mockArtists = [
   },
   {
     id: '20',
+    slug: generateSlug('Alexx Skyy'),
     name: 'Alexx Skyy',
     bio: '',
     email: 'alexgrabofsky@gmail.com',
@@ -272,6 +304,7 @@ const mockArtists = [
   },
   {
     id: '21',
+    slug: generateSlug('Escape The Smoke'),
     name: 'Escape The Smoke',
     bio: '',
     email: 'escapethesmok@gmail.com',
@@ -284,6 +317,7 @@ const mockArtists = [
   },
   {
     id: '22',
+    slug: generateSlug('Michael P Toombs'),
     name: 'Michael P Toombs',
     bio: '',
     email: 'mptoombs4@gmail.com',
@@ -296,6 +330,7 @@ const mockArtists = [
   },
   {
     id: '23',
+    slug: generateSlug('Tata'),
     name: 'Tata',
     bio: 'Your favorite rapper\'s favorite homie that raps Addicted to rhythm and open mics Local artist from tha 503 building a meta verse wit a pen and verse',
     email: 'Tata.503.htc@gmail.com',
@@ -308,6 +343,7 @@ const mockArtists = [
   },
   {
     id: '24',
+    slug: generateSlug('Bllack Cat'),
     name: 'Bllack Cat',
     bio: '',
     email: '',
@@ -319,6 +355,7 @@ const mockArtists = [
   },
   {
     id: '25',
+    slug: generateSlug('Banshekid'),
     name: 'Banshekid',
     bio: '',
     email: 'bansheekid23@gmail.com',
@@ -343,6 +380,7 @@ export default function ArtistGrid() {
         .from('artist_profiles')
         .select(`
           id,
+          slug,
           created_at,
           updated_at,
           is_featured,
@@ -386,6 +424,7 @@ export default function ArtistGrid() {
 
             return {
               id: artist.id,
+              slug: artist.slug,
               name: artist.name,
               bio: artist.bio || '',
               email: '', // Email is now protected and not exposed to public queries
