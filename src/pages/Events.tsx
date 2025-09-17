@@ -18,28 +18,6 @@ const Events = () => {
       price: 'Free Admission',
       image: '/images/pdx-showcase-event.png',
       mapsUrl: 'https://www.google.com/maps/dir//Covert+Caf%C3%A9,+803+SE+82nd+Ave,+Portland,+OR+97216/@45.5168084,-122.620532,13z/data=!4m9!4m8!1m0!1m5!1m1!1s0x5495a1a9fda3d12b:0x69e910d10ba4a5c!2m2!1d-122.5791431!2d45.5167612!3e0?entry=ttu&g_ep=EgoyMDI1MDkwOS4wIKXMDSoASAFQAw%3D%3D'
-    },
-    {
-      id: 2,
-      title: 'Open Mic Night',
-      description: 'Weekly open mic featuring local Portland artists. Sign up starts at 6 PM, performances begin at 7 PM.',
-      date: 'Every Thursday',
-      time: '7:00 PM - 11:00 PM',
-      venue: 'The Local Lounge',
-      address: '1234 SE Division St, Portland, OR 97202',
-      price: '$5 Cover',
-      image: '/public/placeholder.svg'
-    },
-    {
-      id: 3,
-      title: 'Artist Collaboration Workshop',
-      description: 'Monthly workshop for artists to collaborate, network, and share creative processes. All mediums welcome.',
-      date: 'First Saturday of Each Month',
-      time: '2:00 PM - 6:00 PM',
-      venue: 'PDX Creative Space',
-      address: '567 N Williams Ave, Portland, OR 97227',
-      price: 'Free for Members, $10 for Non-members',
-      image: '/public/placeholder.svg'
     }
   ];
 
