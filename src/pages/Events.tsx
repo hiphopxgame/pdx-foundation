@@ -10,7 +10,7 @@ const Events = () => {
   const upcomingEvents = [
     {
       id: 1,
-      title: 'PDX.Foundation Showcase',
+      title: 'PDX.Foundation Fundraiser',
       description: 'Join us for an unforgettable evening celebrating Portland\'s vibrant music scene. Experience live performances from our talented collective of artists.',
       date: 'Tuesday, September 30th, 2025',
       time: '4:00 PM - 10:00 PM',
