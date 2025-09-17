@@ -8,6 +8,7 @@ import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import Artists from "./pages/Artists";
+import ArtistProfile from "./pages/ArtistProfile";
 import Events from "./pages/Events";
 import NotFound from "./pages/NotFound";
 
@@ -19,6 +20,7 @@ const App = () => (
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/artists" element={<Artists />} />
+        <Route path="/artists/:id" element={<ArtistProfile />} />
         <Route path="/events" element={<Events />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/profile" element={<Profile />} />

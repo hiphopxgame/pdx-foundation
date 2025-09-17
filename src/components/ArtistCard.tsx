@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -129,10 +130,12 @@ export default function ArtistCard({ artist, showPhotos = false, showVideos = fa
 
         {/* Action Buttons */}
         <div className="flex gap-2 pt-2">
-          <Button variant="hero" size="sm" className="flex-1">
-            <Play className="w-4 h-4" />
-            View Profile
-          </Button>
+          <Link to={`/artists/${artist.id}`} className="flex-1">
+            <Button variant="hero" size="sm" className="w-full">
+              <Play className="w-4 h-4" />
+              View Profile
+            </Button>
+          </Link>
           {artist.email && (
             <Button variant="outline" size="sm">
               <ExternalLink className="w-4 h-4" />
