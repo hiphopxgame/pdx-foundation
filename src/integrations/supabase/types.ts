@@ -292,6 +292,7 @@ export type Database = {
           is_featured: boolean | null
           is_public: boolean | null
           name: string
+          slug: string
           soundcloud_url: string | null
           spotify_url: string | null
           tiktok_url: string | null
@@ -317,6 +318,7 @@ export type Database = {
           is_featured?: boolean | null
           is_public?: boolean | null
           name: string
+          slug: string
           soundcloud_url?: string | null
           spotify_url?: string | null
           tiktok_url?: string | null
@@ -342,6 +344,7 @@ export type Database = {
           is_featured?: boolean | null
           is_public?: boolean | null
           name?: string
+          slug?: string
           soundcloud_url?: string | null
           spotify_url?: string | null
           tiktok_url?: string | null
@@ -687,6 +690,7 @@ export type Database = {
       }
       cbake_orders: {
         Row: {
+          business_location: string | null
           company_name: string | null
           created_at: string
           delivery: string
@@ -709,6 +713,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          business_location?: string | null
           company_name?: string | null
           created_at?: string
           delivery: string
@@ -731,6 +736,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          business_location?: string | null
           company_name?: string | null
           created_at?: string
           delivery?: string
@@ -3897,6 +3903,10 @@ export type Database = {
       }
       format_service_name: {
         Args: { service_slug: string }
+        Returns: string
+      }
+      generate_slug: {
+        Args: { input_text: string }
         Returns: string
       }
       get_admin_users: {
