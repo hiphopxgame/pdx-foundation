@@ -5,42 +5,21 @@ import Hero from '@/components/Hero';
 import EventSection from '@/components/EventSection';
 import ArtistGrid from '@/components/ArtistGrid';
 import DonationSection from '@/components/DonationSection';
-import { LogIn } from 'lucide-react';
 
 const Index = () => {
-  const { user, isAdmin, signOut } = useAuth();
+  const { isAdmin } = useAuth();
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="absolute top-4 right-4 z-10">
-        {user ? (
-          <div className="flex items-center gap-2">
-            {isAdmin ? (
-              <Link to="/admin">
-                <Button variant="outline" size="sm">
-                  Admin Panel
-                </Button>
-              </Link>
-            ) : (
-              <Link to="/profile">
-                <Button variant="outline" size="sm">
-                  My Profile
-                </Button>
-              </Link>
-            )}
-            <Button variant="outline" size="sm" onClick={signOut}>
-              Sign Out
-            </Button>
-          </div>
-        ) : (
-          <Link to="/auth">
+      {isAdmin && (
+        <div className="absolute top-4 right-4 z-10">
+          <Link to="/admin">
             <Button variant="outline" size="sm">
-              <LogIn className="w-4 h-4 mr-2" />
-              Sign In
+              Admin Panel
             </Button>
           </Link>
-        )}
-      </div>
+        </div>
+      )}
       
       {/* Hero Section */}
       <Hero />
